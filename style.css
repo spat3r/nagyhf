@@ -1,0 +1,63 @@
+body{
+    font: 12px verdana;
+    background: #111144;
+}
+
+h1, h2{
+    font-family: Arial;
+}
+
+h2{
+    margin-top: 0px;
+}
+
+#keret {
+    width: 950px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    background-color: #cccccc
+}
+
+#fejlec {
+    height: 50px;
+}
+
+#tartalom {
+    width: 700px;
+    float:left
+}
+
+#seged {
+    width: 240px;
+    float: right;
+}
+
+.cikk {
+    border: 1px dashed black;
+    background: #eeeeee;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-spacing: 2px;
+    
+}
+th, td {
+    padding: 5px;
+}
+th{
+    text-align: left;
+}
+td{
+    text-align: center
+}
+
+.modul {
+    border: 1px solid black;
+    background: #eeeeee;
+    padding: 10px;
+    margin-top: 10px;
+}
