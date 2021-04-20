@@ -11231,3 +11231,10 @@ textarea.form-control-lg {
 .end-5 {
     right: 5% !important
 }
+
+.cal-arrow {
+    background-color: transparent !important
+}
+.cal-arrow:hover {
+    background-color: rgba(255, 255, 255, 0.5) !important
+}

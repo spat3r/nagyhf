@@ -206,16 +206,16 @@ for ($day = 1; $day <= $day_count; $day++, $str++) {
 			</div>
 
 			<div class="col-lg-3 order-1 order-lg-2 mt-4 bg-dark bg-gradient text-light rounded-3">
-				<h3><a href="?ym=<?php echo $prev; ?>">&lt;</a> <?php echo $html_title; ?> <a href="?ym=<?php echo $next; ?>">&gt;</a></h3>
-				<table class="table table-dark table-bordered text-center">
+				<h3 ><a href="?ym=<?php echo $prev; ?>"   >&lt;</a> <?php echo $html_title; ?> <a href="?ym=<?php echo $next; ?>">&gt;</a></h3>
+				<table class="table table-dark table-bordered text-center ">
 					<tr>
-						<th>H</th>
-						<th>K</th>
-						<th>Sz</th>
-						<th>Cs</th>
-						<th>P</th>
-						<th>Sz</th>
-						<th>V</th>
+						<th scope="col">H</th>
+						<th scope="col">K</th>
+						<th scope="col">Sz</th>
+						<th scope="col">Cs</th>
+						<th scope="col">P</th>
+						<th scope="col">Sz</th>
+						<th scope="col">V</th>
 					</tr>
 					<?php foreach ($weeks as $week) {
 						echo $week;
