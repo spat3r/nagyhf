@@ -104,3 +104,13 @@ a {
     padding: 10px;
     border: 1px solid red;
 }
+
+.today {
+    background: orange;
+}
+th:nth-of-type(1), td:nth-of-type(1) {
+    color: red;
+}
+th:nth-of-type(7), td:nth-of-type(7) {
+    color: blue;
+}
