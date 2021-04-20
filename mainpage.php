@@ -1,79 +1,70 @@
-﻿<?php
-session_start();
-?>
-
-
+﻿
 <?php
-// Set your timezone
+// Set your timezone!!
 date_default_timezone_set('Europe/Budapest');
 
 // Get prev & next month
 if (isset($_GET['ym'])) {
-	$ym = $_GET['ym'];
+    $ym = $_GET['ym'];
 } else {
-	// This month
-	$ym = date('Y-m');
+    // This month
+    $ym = date('Y-m');
 }
 
 // Check format
-$timestamp = strtotime($ym . '-01');
+$timestamp = strtotime($ym . '-01');  // the first day of the month
 if ($timestamp === false) {
-	$ym = date('Y-m');
-	$timestamp = strtotime($ym . '-01');
+    $ym = date('Y-m');
+    $timestamp = strtotime($ym . '-01');
 }
 
-// Today
-$today = date('Y-m-j', time());
+// Today (Format:2018-08-8)
+$today = date('Y-m-j');
 
-// For H3 title
-$html_title = date('Y / m', $timestamp);
+// Title (Format:August, 2018)
+$title = date('Y F', $timestamp);
 
-// Create prev & next month link     mktime(hour,minute,second,month,day,year)
-$prev = date('Y-m', mktime(0, 0, 0, date('m', $timestamp) - 1, 1, date('Y', $timestamp)));
-$next = date('Y-m', mktime(0, 0, 0, date('m', $timestamp) + 1, 1, date('Y', $timestamp)));
-// You can also use strtotime!
-// $prev = date('Y-m', strtotime('-1 month', $timestamp));
-// $next = date('Y-m', strtotime('+1 month', $timestamp));
+// Create prev & next month link
+$prev = date('Y-m', strtotime('-1 month', $timestamp));
+$next = date('Y-m', strtotime('+1 month', $timestamp));
 
 // Number of days in the month
 $day_count = date('t', $timestamp);
 
-// 0:Sun 1:Mon 2:Tue ...
-$str = date('w', mktime(0, 0, 0, date('m', $timestamp), 1, date('Y', $timestamp)));
-//$str = date('w', $timestamp);
+// 1:Mon 2:Tue 3: Wed ... 7:Sun
+$str = date('N', $timestamp);
 
-
-// Create Calendar!!
-$weeks = array();
+// Array for calendar
+$weeks = [];
 $week = '';
 
-// Add empty cell
-$week .= str_repeat('<td></td>', $str);
+// Add empty cell(s)
+$week .= str_repeat('<td></td>', $str - 1);
 
 for ($day = 1; $day <= $day_count; $day++, $str++) {
 
-	$date = $ym . '-' . $day;
+    $date = $ym . '-' . $day;
 
-	if ($today == $date) {
-		$week .= '<td class="today">' . $day;
-	} else {
-		$week .= '<td>' . $day;
-	}
-	$week .= '</td>';
+    if ($today == $date) {
+        $week .= '<td style="background: #173055">';
+    } else {
+        $week .= '<td>';
+    }
+    $week .= $day . '</td>';
 
-	// End of the week OR End of the month
-	if ($str % 7 == 6 || $day == $day_count) {
+    // Sunday OR last day of the month
+    if ($str % 7 == 0 || $day == $day_count) {
 
-		if ($day == $day_count) {
-			// Add empty cell
-			$week .= str_repeat('<td></td>', 6 - ($str % 7));
-		}
+        // last day of the month
+        if ($day == $day_count && $str % 7 != 0) {
+            // Add empty cell(s)
+            $week .= str_repeat('<td></td>', 7 - $str % 7);
+        }
 
-		$weeks[] = '<tr>' . $week . '</tr>';
+        $weeks[] = '<tr>' . $week . '</tr>';
 
-		// Prepare for new week
-		$week = '';
-	}
+        $week = '';
+    }
 }
 ?>
 
@@ -108,7 +99,7 @@ for ($day = 1; $day <= $day_count; $day++, $str++) {
 	</nav>
 	<div class="container mt-4">
 		<div class="row justify-content-around">
-			<div class="col-lg-8 order-2 order-lg-1 mt-4" style="text-align: center; ">
+			<div class="col-lg-7 col-xl-8 order-2 order-lg-1 mt-4" style="text-align: center; ">
 				<div class="row">
 					<div class="container bg-dark bg-gradient text-light rounded-3">
 						<div class="row my-2">
@@ -205,8 +196,8 @@ for ($day = 1; $day <= $day_count; $day++, $str++) {
 				</div>
 			</div>
 
-			<div class="col-lg-3 order-1 order-lg-2 mt-4 bg-dark bg-gradient text-light rounded-3">
-				<h3 ><a href="?ym=<?php echo $prev; ?>"   >&lt;</a> <?php echo $html_title; ?> <a href="?ym=<?php echo $next; ?>">&gt;</a></h3>
+			<div class="col-lg-4 col-xl-3 order-1 order-lg-2 mt-4 bg-dark bg-gradient justify-content-around text-light rounded-3">
+				<h3 class="text-center"><a href="?ym=<?php echo $prev; ?>" class="btn btn-link bg-transparent " >&lt;</a> <?php echo $title; ?> <a href="?ym=<?php echo $next; ?>" class="btn btn-link bg-transparent">&gt;</a></h3>
 				<table class="table table-dark table-bordered text-center ">
 					<tr>
 						<th scope="col">H</th>
