@@ -58,10 +58,6 @@ for ($day = 1; $day <= $day_count; $day++, $str++) {
     }
     $week .= "<a href=\"calendar.php?ymd=" .$date  ."\" class=\" p-0 m-0 bg-transparent\">" . $day . "</a>". '</td>';
 
-
-		// href="calendar.php?ymd=
-
-
     // Sunday OR last day of the month
     if ($str % 7 == 0 || $day == $day_count) {
 
