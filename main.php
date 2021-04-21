@@ -1,38 +1,43 @@
 ﻿
+<?php 
+session_start();
+?>
+
 <?php
 // Set your timezone!!
 date_default_timezone_set('Europe/Budapest');
 
-// Get prev & next month
-if (isset($_GET['ym'])) {
-    $ym = $_GET['ym'];
+if (isset($_SESSION['ymd'])) {
+    $ymd = $_SESSION['ymd'];
 } else {
     // This month
-    $ym = date('Y-m');
+    $ymd = date('Y-m-j');
 }
+
 
 // Check format
-$timestamp = strtotime($ym . '-01');  // the first day of the month
+$timestamp = strtotime($ymd);  // selected or shifted day of the month
 if ($timestamp === false) {
-    $ym = date('Y-m');
-    $timestamp = strtotime($ym . '-01');
+    $ymd = date('Y-m-j');
+    $timestamp = strtotime($ymd);
 }
 
-// Today (Format:2018-08-8)
-$today = date('Y-m-j');
+//Generating a year-month var for the table loop
+$ym = date('Y-m',  $timestamp);
 
-// Title (Format:August, 2018)
+// Title (Format:2021 May)
 $title = date('Y F', $timestamp);
 
 // Create prev & next month link
-$prev = date('Y-m', strtotime('-1 month', $timestamp));
-$next = date('Y-m', strtotime('+1 month', $timestamp));
+$prev = date('Y-m-j', strtotime('-1 month', $timestamp));
+$next = date('Y-m-j', strtotime('+1 month', $timestamp));
 
 // Number of days in the month
 $day_count = date('t', $timestamp);
 
-// 1:Mon 2:Tue 3: Wed ... 7:Sun
-$str = date('N', $timestamp);
+// Getting de numeral representation of the day ( 1:MON ... 7:SUN)
+// on the forst day of the month
+$str = date('N', strtotime(date('Y-m',  $timestamp)."-01") );
 
 // Array for calendar
 $weeks = [];
@@ -41,16 +46,21 @@ $week = '';
 // Add empty cell(s)
 $week .= str_repeat('<td></td>', $str - 1);
 
+
 for ($day = 1; $day <= $day_count; $day++, $str++) {
 
     $date = $ym . '-' . $day;
 
-    if ($today == $date) {
+    if ($ymd == $date) {
         $week .= '<td style="background: #173055">';
     } else {
         $week .= '<td>';
     }
-    $week .= $day . '</td>';
+    $week .= "<a href=\"calendar.php?ymd=" .$date  ."\" class=\" p-0 m-0 bg-transparent\">" . $day . "</a>". '</td>';
+
+
+		// href="calendar.php?ymd=
+
 
     // Sunday OR last day of the month
     if ($str % 7 == 0 || $day == $day_count) {
@@ -74,7 +84,7 @@ for ($day = 1; $day <= $day_count; $day++, $str++) {
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="refresh" content="1000000000000">
+	<meta http-equiv="refresh" content="10">
 	<link href="bootstrap.css" rel="stylesheet" type="text/css" />
 	<link href="speti.css" rel="stylesheet" type="text/css" />
 	<title>Speti edzos oldala xd</title>
@@ -195,23 +205,27 @@ for ($day = 1; $day <= $day_count; $day++, $str++) {
 					</div>
 				</div>
 			</div>
-
-			<div class="col-lg-4 col-xl-3 order-1 order-lg-2 mt-4 bg-dark bg-gradient justify-content-around text-light rounded-3">
-				<h3 class="text-center"><a href="?ym=<?php echo $prev; ?>" class="btn btn-link bg-transparent " >&lt;</a> <?php echo $title; ?> <a href="?ym=<?php echo $next; ?>" class="btn btn-link bg-transparent">&gt;</a></h3>
-				<table class="table table-dark table-bordered text-center ">
-					<tr>
-						<th scope="col">H</th>
-						<th scope="col">K</th>
-						<th scope="col">Sz</th>
-						<th scope="col">Cs</th>
-						<th scope="col">P</th>
-						<th scope="col">Sz</th>
-						<th scope="col">V</th>
-					</tr>
-					<?php foreach ($weeks as $week) {
-						echo $week;
-					} ?>
+			
+			<div class="col-lg-4 col-xl-3 order-1 order-lg-2 mt-4">
+				<div class="row">
+					<div class="bg-dark bg-gradient justify-content-around text-light rounded-3">
+						<h3 class="text-center"><a href="calendar.php?ymd=<?php echo $prev; ?>" class="btn btn-link bg-transparent " >&lt;</a> <?php echo $title; ?> <a href="calendar.php?ymd=<?php echo $next; ?>" class="btn btn-link bg-transparent">&gt;</a></h3>
+						<table class="table table-dark table-bordered text-center ">
+						<tr>
+							<th scope="col">H</th>
+							<th scope="col">K</th>
+							<th scope="col">Sz</th>
+							<th scope="col">Cs</th>
+							<th scope="col">P</th>
+							<th scope="col">Sz</th>
+							<th scope="col">V</th>
+						</tr>
+						<?php foreach ($weeks as $week) {
+							echo $week;
+						} ?>
 				</table>
+					</div>
+				</div>
 			</div>
 		</div>
 

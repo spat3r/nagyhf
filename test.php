@@ -1,56 +1,77 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>PHP Calendar</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
-    <style>
-        .container {
-            font-family: 'Noto Sans', sans-serif;
-            margin-top: 80px;
+<?php
+// Set your timezone!!
+date_default_timezone_set('Europe/Budapest');
+
+// Get prev & next month
+if (isset($_GET['ym'])) {
+    $ym = $_GET['ym'];
+} else {
+    // This month
+    $ym = date('Y-m');
+}
+
+// Check format
+$timestamp = strtotime($ym . '-01');  // the first day of the month
+if ($timestamp === false) {
+    $ym = date('Y-m');
+    $timestamp = strtotime($ym . '-01');
+}
+
+// Today (Format:2018-08-8)
+$today = date('Y-m-j');
+
+// Title (Format:August, 2018)
+$title = date('Y F', $timestamp);
+
+// Create prev & next month link
+$prev = date('Y-m', strtotime('-1 month', $timestamp));
+$next = date('Y-m', strtotime('+1 month', $timestamp));
+
+// Number of days in the month
+$day_count = date('t', $timestamp);
+
+// 1:Mon 2:Tue 3: Wed ... 7:Sun
+$str = date('N', $timestamp);
+
+// Array for calendar
+$weeks = [];
+$week = '';
+
+// Add empty cell(s)
+$week .= str_repeat('<td></td>', $str - 1);
+
+for ($day = 1; $day <= $day_count; $day++, $str++) {
+
+    $date = $ym . '-' . $day;
+
+    if ($today == $date) {
+        $week .= '<td style="background: #173055">';
+    } else {
+        $week .= '<td>';
+    }
+    $week .= $day . '</td>';
+
+    // Sunday OR last day of the month
+    if ($str % 7 == 0 || $day == $day_count) {
+
+        // last day of the month
+        if ($day == $day_count && $str % 7 != 0) {
+            // Add empty cell(s)
+            $week .= str_repeat('<td></td>', 7 - $str % 7);
         }
-        h3 {
-            margin-bottom: 30px;
-        }
-        th {
-            height: 30px;
-            text-align: center;
-        }
-        td {
-            height: 100px;
-        }
-        .today {
-            background: orange;
-        }
-        th:nth-of-type(1), td:nth-of-type(1) {
-            color: red;
-        }
-        th:nth-of-type(7), td:nth-of-type(7) {
-            color: blue;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h3><a href="?ym=<?php echo $prev; ?>">&lt;</a> <?php echo $html_title; ?> <a href="?ym=<?php echo $next; ?>">&gt;</a></h3>
-        <table class="table table-bordered">
-            <tr>
-                <th>S</th>
-                <th>M</th>
-                <th>T</th>
-                <th>W</th>
-                <th>T</th>
-                <th>F</th>
-                <th>S</th>
-            </tr>
-            <?php
-                foreach ($weeks as $week) {
-                    echo $week;
-                }
-            ?>
-        </table>
-    </div>
-</body>
-</html>
+
+        $weeks[] = '<tr>' . $week . '</tr>';
+
+        $week = '';
+    }
+}
+
+echo $ym . $timestamp . $today;
+
+
+
+
+
+
+?>
