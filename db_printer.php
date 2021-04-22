@@ -8,10 +8,10 @@
         <?php
         include 'db.php';
         $link=open_db();
-        
-        $query = "SELECT p\.id, p\.username, p\.password, p\.weight, p\.weightgoal, p\.height, p\.gender, h\.gramms, h\.date, h\.blds_id, m\.prot, m\.carb, m\.fat  FROM profil p";
-        $query .=" inner join profil_has_meal h on p\.id = h\.profil_id";
-        $query .=" inner join meal m on m\.id = h\.meal_id";
+        //  p\.id, p\.usr, p\.psw, p\.wt, p\.wtg, p\.ht, p\.g, h\.gr, h\.date, h\.blds_id, m\.prot, m\.carb, m\.fat 
+        $query = "SELECT *  FROM profil p ";
+        $query .=" inner join profil_has_meal h on p.id = h.profil_id";
+        $query .=" inner join meal m on m.id = h.meal_id";
         $eredmeny = mysqli_query($link, $query);
 
         ?>
@@ -22,7 +22,6 @@
         <div class="col-10">
         <table class="table table-hover table-bordered">
             <tr>
-            <th scope="col">ID</th>
                 <th scope="col">id</th>
                 <th scope="col">uname</th>      
                 <th scope="col">psw</th>      
@@ -33,7 +32,7 @@
                 <th scope="col">gramm</th>      
                 <th scope="col">date</th> 
                 <th scope="col">meal</th>
-                <th scope="col">meal</th>
+                <th scope="col">gramms</th>
                 <th scope="col">prot</th>      
                 <th scope="col">carb</th>      
                 <th scope="col">fat</th> 
@@ -41,19 +40,20 @@
             </tr> 
             <?php while ($row = mysqli_fetch_array($eredmeny)): ?>
                 <tr>
-                <th scope="row"> <?=$row['id']?> </th>
-                <th scope="row"> <?=$row['username']?> </th>
-                <th scope="row"> <?=$row['password']?> </th>
-                <th scope="row"> <?=$row['weight']?> </th>
-                <th scope="row"> <?=$row['weightgoal']?> </th>
-                <th scope="row"> <?=$row['height']?> </th>
-                <th scope="row"> <?=$row['gender']?> </th>
-                <th scope="row"> <?=$row['gramms']?> </th>
-                <th scope="row"> <?=$row['date']?> </th>
-                <th scope="row"> <?=$row['blds_id']?> </th>
-                <th scope="row"> <?=$row['prot']?> </th>
-                <th scope="row"> <?=$row['carb']?> </th>
-                <th scope="row"> <?=$row['fat']?> </th>
+                <th scope=""> <?=$row['id']?> </th>
+                <th scope=""> <?=$row['usr']?> </th>
+                <th scope=""> <?=$row['psw']?> </th>
+                <th scope=""> <?=$row['wt']?> </th>
+                <th scope=""> <?=$row['wtg']?> </th>
+                <th scope=""> <?=$row['ht']?> </th>
+                <th scope=""> <?=$row['g']?> </th>
+                <th scope=""> <?=$row['gr']?> </th>
+                <th scope=""> <?=$row['date']?> </th>
+                <th scope=""> <?=$row['name']?> </th>
+                <th scope=""> <?=$row['blds_id']?> </th>
+                <th scope=""> <?=$row['prot']?> </th>
+                <th scope=""> <?=$row['carb']?> </th>
+                <th scope=""> <?=$row['fat']?> </th>
 
                 </tr> 
             <?php endwhile; ?>        

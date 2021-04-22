@@ -1,9 +1,20 @@
 ﻿
 <?php 
 session_start();
+include 'db.php';
+$link=open_db();
+
+$query = "SELECT   FROM profil p ";
+$query .=" inner join profil_has_meal h on p.id = h.profil_id";
+$query .=" inner join meal m on m.id = h.meal_id";
+$eredmeny = mysqli_query($link, $query);
+
+
+
 ?>
 
 <?php
+
 // Set your timezone!!
 date_default_timezone_set('Europe/Budapest');
 
@@ -73,6 +84,8 @@ for ($day = 1; $day <= $day_count; $day++, $str++) {
     }
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html>
