@@ -1,6 +1,15 @@
 ﻿
 <?php 
 session_start();
+
+if (isset($_SESSION['ymd'])) {
+    $ymd = $_SESSION['ymd'];
+} else {
+    // This month
+    $ymd = date('Y-m-j');
+}
+
+if (!isset($_SESSION['usr'])) header("Location: login.php");
 include 'db.php';
 $link=open_db();
 
@@ -8,7 +17,13 @@ $query = "SELECT *  FROM profil p ";
 $query .=" inner join profil_has_meal h on p.id = h.profil_id";
 $query .=" inner join meal m on m.id = h.meal_id";
 $eredmeny = mysqli_query($link, $query);
+$_SESSION['usr']="speti";
 
+$cal_query="SELECT p.age as age, p.wt as wt, p.wtg as wtg, p.ht as ht, p.g as g  FROM profil p inner join profil_has_meal h on p.id = h.profil_id";
+$profile_query = "where p.usr = '".$_SESSION['usr']."' AND h.date='".$_SESSION['ymd']."' group by p.id;";
+echo $cal_query.$profile_query;
+$eredmeny = mysqli_query($link, $cal_query.$profile_query);
+$cal = mysqli_fetch_array($eredmeny);
 
 
 ?>
@@ -18,12 +33,6 @@ $eredmeny = mysqli_query($link, $query);
 // Set your timezone!!
 date_default_timezone_set('Europe/Budapest');
 
-if (isset($_SESSION['ymd'])) {
-    $ymd = $_SESSION['ymd'];
-} else {
-    // This month
-    $ymd = date('Y-m-j');
-}
 
 
 // Check format
