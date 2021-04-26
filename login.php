@@ -5,7 +5,7 @@ $link = open_db();
 
 if (isset($_POST['usr'])) {
     $result = mysqli_query($link, "SELECT psw FROM profil p WHERE p.usr LIKE '".$_POST['usr']."';");
-    if(!mysqli_num_rows($result)) { $_SESSION['error']="user404";}
+    if(!mysqli_num_rows($result)) { echo "fasz"; $_SESSION['error']="user404";}
     else { 
         $psw = mysqli_fetch_array($result);
         if( $psw['psw'] != md5($_POST['psw']) ) { $_SESSION['error']="wrongpsw";}
@@ -35,12 +35,12 @@ if (isset($_POST['usr'])) {
     <div class="form-floating mb-3">
       <input value="<?php if(isset($_POST['usr'])) echo $_POST['usr'];?>" type="text" name="usr" class="form-control" placeholder="name@example.com">
       <label for="floatingInput">Felhasználónév</label>
-      <?php if($_SESSION['error']=="user404") echo "<div class=\"invalid-feedback\">A felhasználónév nem regisztrált.</div>";   ?>
+      <?php if($_SESSION['error']=="user404") echo "<div class=\"divvis\">A felhasználónév nem regisztrált.</div>";   ?>
     </div>
     <div class="form-floating mb-3">
       <input type="password" name="psw" class="form-control" placeholder="Password">
       <label for="floatingPassword">Jelszó</label>
-      <?php if($_SESSION['error']=="wrongpsw") echo "<div class=\"invalid-feedback\">Helytelen jelszó.</div>";   ?>
+      <?php if($_SESSION['error']=="wrongpsw") echo "<div class=\"divvis\">Helytelen jelszó.</div>";   ?>
     </div>
 
     

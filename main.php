@@ -13,22 +13,31 @@ if (!isset($_SESSION['usr'])) header("Location: login.php");
 include 'db.php';
 $link=open_db();
 
-$query = "SELECT *  FROM profil p ";
-$query .=" inner join profil_has_meal h on p.id = h.profil_id";
-$query .=" inner join meal m on m.id = h.meal_id";
-$eredmeny = mysqli_query($link, $query);
-$_SESSION['usr']="speti";
+$profile_query = " where p.usr LIKE '".$_SESSION['usr'];
+$date_query = "' AND h.date='".$_SESSION['ymd']."' group by p.id;";
 
-$cal_query="SELECT p.age as age, p.wt as wt, p.wtg as wtg, p.ht as ht, p.g as g  FROM profil p inner join profil_has_meal h on p.id = h.profil_id";
-$profile_query = "where p.usr = '".$_SESSION['usr']."' AND h.date='".$_SESSION['ymd']."' group by p.id;";
-echo $cal_query.$profile_query;
-$eredmeny = mysqli_query($link, $cal_query.$profile_query);
+$eredmeny = mysqli_query($link, "SELECT p.age as age, p.wt as wt, p.wtg as wtg, p.ht as ht, p.g as g  FROM profil p inner join profil_has_meal h on p.id = h.profil_id WHERE p.usr LIKE '".$_SESSION['usr']."' GROUP BY p.id;");
 $cal = mysqli_fetch_array($eredmeny);
+if ($cal['g']){ 
+	$cal_goal = floor(13.397*$cal['wtg']  + 4.799*$cal['ht']  - 5.677*$cal['age']  + 88.362); 
+	$cal_stag = floor(13.397*$cal['wt']  + 4.799*$cal['ht']  - 5.677*$cal['age']  + 88.362);
+	if ( ($cal_goal - $cal_stag) > 200 ) $cal_daily = $cal_stag + 200;
+	else if ( ($cal_stag - $cal_goal) > 200 ) $cal_daily = $cal_stag - 200;
+	else $cal_daily = $cal_goal;
+}
+else { 
+	$cal_goal = floor(9.247*$cal['wtg']  +  3.098*$cal['ht']  - 4.330*$cal['age']  + 447.593); 
+	$cal_stag = floor(9.247*$cal['wt']  +  3.098*$cal['ht']  - 4.330*$cal['age']  + 447.593);
+	if ( ($cal_goal - $cal_stag) > 200 ) $cal_daily = $cal_stag + 200;
+	else if ( ($cal_stag - $cal_goal) > 200 ) $cal_daily = $cal_stag - 200;
+	else $cal_daily = $cal_goal;
+}
 
 
-?>
 
-<?php
+
+
+//		CALENDAR
 
 // Set your timezone!!
 date_default_timezone_set('Europe/Budapest');
@@ -136,28 +145,20 @@ for ($day = 1; $day <= $day_count; $day++, $str++) {
 							</div>
 						</div>
 						<div class="row my-4" style="height: auto;">
-							<div class="col-4 mt-4">
+							<div class="col-6 mt-4">
 								<div class="progress" style="height: 7px;">
 									<div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 								</div>
 								Elfogyasztott
 
 							</div>
-							<div class="col-4 mt-4">
+							<div class="col-6 mt-4">
 								<div class="progress" style="height: 7px;">
 									<div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 								</div>
 								Hátralévő
 
 							</div>
-							<div class="col-4 mt-4">
-								<div class="progress" style="height: 7px;">
-									<div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-								</div>
-								Elégetett
-
-							</div>
-
 						</div>
 						<div class="row my-4" style="height: auto;">
 							<div class="col-4 mt-4">
