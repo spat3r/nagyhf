@@ -14,35 +14,46 @@ include 'db.php';
 $link=open_db();
 
 $profile_query = " where p.usr LIKE '".$_SESSION['usr'];
-$date_query = "' AND h.date='".$_SESSION['ymd']."' group by p.id;";
+$date_query = "' AND h.date='".$_SESSION['ymd']."';";
+$sql_join = "FROM profil p inner join profil_has_meal h on p.id = h.profil_id inner join meal m on m.id = h.meal_id";
 
 $eredmeny = mysqli_query($link, "SELECT p.age as age, p.wt as wt, p.wtg as wtg, p.ht as ht, p.g as g  FROM profil p inner join profil_has_meal h on p.id = h.profil_id WHERE p.usr LIKE '".$_SESSION['usr']."' GROUP BY p.id;");
-$cal = mysqli_fetch_array($eredmeny);
-if ($cal['g']){ 
-	$cal_goal = floor(13.397*$cal['wtg']  + 4.799*$cal['ht']  - 5.677*$cal['age']  + 88.362); 
-	$cal_stag = floor(13.397*$cal['wt']  + 4.799*$cal['ht']  - 5.677*$cal['age']  + 88.362);
+$profil = mysqli_fetch_array($eredmeny);
+if ($profil['g']){ 
+	$cal_goal = round(13.397*$profil['wtg']  + 4.799*$profil['ht']  - 5.677*$profil['age']  + 88.362); 
+	$cal_stag = round(13.397*$profil['wt']  + 4.799*$profil['ht']  - 5.677*$profil['age']  + 88.362);
 	if ( ($cal_goal - $cal_stag) > 200 ) $cal_daily = $cal_stag + 200;
 	else if ( ($cal_stag - $cal_goal) > 200 ) $cal_daily = $cal_stag - 200;
 	else $cal_daily = $cal_goal;
 }
 else { 
-	$cal_goal = floor(9.247*$cal['wtg']  +  3.098*$cal['ht']  - 4.330*$cal['age']  + 447.593); 
-	$cal_stag = floor(9.247*$cal['wt']  +  3.098*$cal['ht']  - 4.330*$cal['age']  + 447.593);
+	$cal_goal = round(9.247*$profil['wtg']  +  3.098*$profil['ht']  - 4.330*$profil['age']  + 447.593); 
+	$cal_stag = round(9.247*$profil['wt']  +  3.098*$profil['ht']  - 4.330*$profil['age']  + 447.593);
 	if ( ($cal_goal - $cal_stag) > 200 ) $cal_daily = $cal_stag + 200;
 	else if ( ($cal_stag - $cal_goal) > 200 ) $cal_daily = $cal_stag - 200;
 	else $cal_daily = $cal_goal;
 }
 
+$eredmeny = mysqli_query($link, "SELECT floor(sum(m.prot/1000*h.gr)*4+sum(m.carb/1000*h.gr)*4+sum(m.fat/1000*h.gr)*7) as cal ". $sql_join.$profile_query.$date_query);
+$consumed_cal = mysqli_fetch_array($eredmeny)['cal'];
+$consumed_bar = floor($consumed_cal/$cal_daily*100);
+$left_bar = 100-$consumed_bar;
 
+$prot_goal = $cal_daily*0.075;
+$carb_goal = $cal_daily*0.125;
+$fat_goal = $cal_daily*0.05;
+
+$eredmeny = mysqli_query($link, "SELECT sum(m.prot/1000*h.gr) as prot, sum(m.carb/1000*h.gr) as carb, sum(m.fat/1000*h.gr) as fat ". $sql_join.$profile_query.$date_query);
+$macros = mysqli_fetch_array($eredmeny);
+$consumed_prot= round($macros['prot']/$prot_goal*100);
+$consumed_carb= round($macros['carb']/$carb_goal*100);
+$consumed_fat= round($macros['fat']/$fat_goal*100);
 
 
 
 //		CALENDAR
-
 // Set your timezone!!
 date_default_timezone_set('Europe/Budapest');
-
-
 
 // Check format
 $timestamp = strtotime($ymd);  // selected or shifted day of the month
@@ -85,7 +96,7 @@ for ($day = 1; $day <= $day_count; $day++, $str++) {
     } else {
         $week .= '<td>';
     }
-    $week .= "<a href=\"calendar.php?ymd=" .$date  ."\" class=\" p-0 m-0 bg-transparent\">" . $day . "</a>". '</td>';
+    $week .= "<a href=\"calendar.php?ymd=" .$date  ."\" class=\" p-0 m-0 link-nodecor bg-transparent text-light\" style=\"text-decoration: none\">" . $day . "</a>". '</td>';
 
     // Sunday OR last day of the month
     if ($str % 7 == 0 || $day == $day_count) {
@@ -101,6 +112,7 @@ for ($day = 1; $day <= $day_count; $day++, $str++) {
         $week = '';
     }
 }
+
 ?>
 
 
@@ -113,27 +125,27 @@ for ($day = 1; $day <= $day_count; $day++, $str++) {
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="refresh" content="10">
 	<link href="bootstrap.css" rel="stylesheet" type="text/css" />
-	<link href="speti.css" rel="stylesheet" type="text/css" />
 	<title>Speti edzos oldala xd</title>
+	
 </head>
 
 <body class="bg-primary text-light">
-	<h1 style=" text-align: center;">Später kurvamenő gym oldal</h1>
-	<nav class="navbar navbar-expand-md shadow-lg navbar-dark bg-dark">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="mainpage.html">Főoldal</a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-				<div class="navbar-nav ">
-					<a class="nav-link" href="progress.html">Fejlődés</a>
-					<a class="nav-link" href="newmeal.html">Új étel</a>
-					<a class="nav-link" href="shop.html">Bolt</a>
-				</div>
-			</div>
-		</div>
-	</nav>
+    <h1 style=" text-align: center;">Später kurvamenő gym oldal</h1>
+    <nav class="navbar navbar-expand-md shadow-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="main.php">Főoldal</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav ">
+                    <a class="nav-link" href="progress.php">Fejlődés</a>
+                    <a class="nav-link" href="newmeal.php">Új étel</a>
+                    <a class="nav-link" href="shop.php">Bolt</a>
+                </div>
+            </div>
+        </div>
+    </nav>
 	<div class="container mt-4">
 		<div class="row justify-content-around">
 			<div class="col-lg-7 col-xl-8 order-2 order-lg-1 mt-4" style="text-align: center; ">
@@ -143,44 +155,45 @@ for ($day = 1; $day <= $day_count; $day++, $str++) {
 							<div class="col-12">
 								Mai Napod
 							</div>
-						</div>
+						</div> 
 						<div class="row my-4" style="height: auto;">
-							<div class="col-6 mt-4">
+							<div class="col-3 mt-4">
 								<div class="progress" style="height: 7px;">
-									<div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+									<div class="progress-bar" role="progressbar" style="width: <?=$consumed_bar?>%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
 								</div>
 								Elfogyasztott
 
 							</div>
-							<div class="col-6 mt-4">
-								<div class="progress" style="height: 7px;">
-									<div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+							<div class="col-9 mt-4">
+							<span class="m-1 badge bg-primary "> <?=round($consumed_cal)?> kcla /<?=round($cal_daily)?> kcal</span>
+
+								<div class="progress" style="height: 12px;">
+									<div class="progress-bar" role="progressbar" style="width: <?=$left_bar?>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 								</div>
 								Hátralévő
-
 							</div>
 						</div>
 						<div class="row my-4" style="height: auto;">
 							<div class="col-4 mt-4">
-								<div class="progress" style="height: 7px;">
-									<div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+								<div class="progress" style="height: 10px;">
+									<div class="progress-bar" role="progressbar" style="width: <?=$consumed_carb?>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 								</div>
-								Szénhidrát
-
+								Szénhidrát  <br>
+								<span class="m-1 badge bg-primary"> <?=round($macros['carb'])?>g /<?=round($carb_goal)?>g</span>
+							</div>
+							<div class="col-4 mt-4 ">
+								<div class="progress" style="height: 10px;">
+									<div class="progress-bar" role="progressbar" style="width: <?=$consumed_prot?>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+								</div>
+								Protein <br>
+								<span class="m-1 badge bg-primary "> <?=round($macros['prot'])?>g /<?=round($prot_goal)?>g</span>
 							</div>
 							<div class="col-4 mt-4">
-								<div class="progress" style="height: 7px;">
-									<div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+								<div class="progress" style="height: 10px;">
+									<div class="progress-bar" role="progressbar" style="width: <?=$consumed_fat?>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 								</div>
-								Protein
-
-							</div>
-							<div class="col-4 mt-4">
-								<div class="progress" style="height: 7px;">
-									<div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-								</div>
-								Zsír
-
+								Zsír <br>
+								<span class="m-1 badge bg-primary "> <?=round($macros['carb'])?>g /<?=round($carb_goal)?>g</span>
 							</div>
 						</div>
 					</div>
@@ -193,27 +206,27 @@ for ($day = 1; $day <= $day_count; $day++, $str++) {
 						<div class="col-12 ">
 							<div class="row justify-content-around ">
 								<div class="col-5 col-sm-2 bg-dark rounded-5 position-relative  my-4">
-									<div class="position-relative"> <span class="position-absolute end-5 mt-2 badge bg-primary ">Reggeli</span> </div>
+									<div class="position-relative"> <span class="position-absolute top-0 start-100 translate-middle  badge bg-primary ">Reggeli</span> </div>
 									<br>
-									<a href="newmeal.html" class=" bg-dark stretched-link mb-2"><i class="fas fa-plus-circle"></i>
+									<a href="newmeal.php?=reggeli" class=" bg-dark text-light stretched-link mb-2" style="text-decoration: none;"><i class="fas fa-plus-circle"></i>
+										<br>Add</a>
+								</div>
+								<div class="col-5 col-sm-2 bg-dark rounded-5 position-relative  my-4" >
+									<div class="position-relative"> <span class="position-absolute top-0 start-100 translate-middle badge bg-primary ">Ebéd</span> </div>
+									<br>
+									<a href="newmeal.php?=ebed" class=" bg-dark text-light stretched-link mb-2" style="text-decoration: none;"><i class="fas fa-plus-circle"></i>
+										<br>Add</a>
+								</div>
+								<div class="col-5 col-sm-2 bg-dark rounded-5 position-relative my-4">
+									<div class="position-relative"> <span class="position-absolute top-0 start-100 translate-middle badge bg-primary ">Vacsora</span> </div>
+									<br>
+									<a href="newmeal.php?=vacsora" class=" bg-dark text-light stretched-link " style="text-decoration: none;"><i class="fas fa-plus-circle"></i>
 										<br>Add</a>
 								</div>
 								<div class="col-5 col-sm-2 bg-dark rounded-5 position-relative  my-4">
-									<div class="position-relative"> <span class="position-absolute end-5 mt-2 badge bg-primary ">Ebéd</span> </div>
+									<div class="position-relative"> <span class="position-absolute top-0 start-100 translate-middle badge bg-primary ">Nasi</span> </div>
 									<br>
-									<a href="newmeal.html" class=" bg-dark stretched-link mb-2"><i class="fas fa-plus-circle"></i>
-										<br>Add</a>
-								</div>
-								<div class="col-5 col-sm-2 bg-dark rounded-5 position-relative  my-4">
-									<div class="position-relative"> <span class="position-absolute end-5 mt-2 badge bg-primary ">Vacsora</span> </div>
-									<br>
-									<a href="newmeal.html" class=" bg-dark stretched-link mb-2"><i class="fas fa-plus-circle"></i>
-										<br>Add</a>
-								</div>
-								<div class="col-5 col-sm-2 bg-dark rounded-5 position-relative  my-4">
-									<div class="position-relative"> <span class="position-absolute end-5 mt-2 badge bg-primary ">Nasi</span> </div>
-									<br>
-									<a href="newmeal.html" class=" bg-dark stretched-link mb-2"><i class="fas fa-plus-circle"></i>
+									<a href="newmeal.php?=nasi" class=" bg-dark text-light stretched-link mb-2" style="text-decoration: none;"><i class="fas fa-plus-circle"></i>
 										<br>Add</a>
 								</div>
 
@@ -254,8 +267,7 @@ for ($day = 1; $day <= $day_count; $day++, $str++) {
 
 
 
-
-
+	
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 	<script src="https://kit.fontawesome.com/1e7de2572e.js" crossorigin="anonymous"></script>
 </body>
