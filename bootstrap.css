@@ -199,12 +199,12 @@ sup {
 }
 
 a {
-    color: --bs-blue;
+    color: var(--bs-light);
     text-decoration: none !important;
 }
 
     a:hover {
-        color: #0a58ca;
+        color: var(--bs-light);
         text-decoration: none;
 
     }
@@ -2889,7 +2889,7 @@ textarea.form-control-lg {
 }
 
 .btn:hover {
-    color: #212529
+    color: inherit
 }
 
 .btn-check:focus + .btn, .btn:focus {
@@ -3424,12 +3424,12 @@ textarea.form-control-lg {
 
 .btn-link {
     font-weight: 400;
-    color: var(--bs-primary);
-    text-decoration: underline
+    color: var(--bs-light);
+    text-decoration: none;
 }
 
     .btn-link:hover {
-        color: #0a58ca
+    background-color: var(--bs-dark);
     }
 
     .btn-link.disabled, .btn-link:disabled {

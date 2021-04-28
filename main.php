@@ -39,15 +39,15 @@ $consumed_cal = mysqli_fetch_array($eredmeny)['cal'];
 $consumed_bar = floor($consumed_cal/$cal_daily*100);
 $left_bar = 100-$consumed_bar;
 
-$prot_goal = $cal_daily*0.075;
-$carb_goal = $cal_daily*0.125;
-$fat_goal = $cal_daily*0.05;
+$_SESSION['prot_goal'] = $prot_goal = $cal_daily*0.075;
+$_SESSION['carb_goal'] = $carb_goal = $cal_daily*0.125;
+$_SESSION['fat_goal'] = $fat_goal = $cal_daily*0.05;
 
 $eredmeny = mysqli_query($link, "SELECT sum(m.prot/1000*h.gr) as prot, sum(m.carb/1000*h.gr) as carb, sum(m.fat/1000*h.gr) as fat ". $sql_join.$profile_query.$date_query);
 $macros = mysqli_fetch_array($eredmeny);
-$consumed_prot= round($macros['prot']/$prot_goal*100);
-$consumed_carb= round($macros['carb']/$carb_goal*100);
-$consumed_fat= round($macros['fat']/$fat_goal*100);
+$_SESSION['consumed_prot'] = $consumed_prot= round($macros['prot']/$prot_goal*100);
+$_SESSION['consumed_carb'] = $consumed_carb= round($macros['carb']/$carb_goal*100);
+$_SESSION['consumed_fat'] = $consumed_fat= round($macros['fat']/$fat_goal*100);
 
 
 
