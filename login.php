@@ -1,9 +1,13 @@
 <?php 
 session_start();
+if(isset($_POST) AND isset($_POST['logout']) AND $_POST['logout']=='1'){
+  session_unset();
+  session_write_close();
+}
 include 'db.php';
 $link = open_db();
 
-if (isset($_POST['usr'])) {
+if (isset($_POST) AND isset($_POST['usr'])) {
     $result = mysqli_query($link, "SELECT psw FROM profil p WHERE p.usr LIKE '".$_POST['usr']."';");
     if(!mysqli_num_rows($result)) { echo "fasz"; $_SESSION['error']="user404";}
     else { 
@@ -31,16 +35,20 @@ if (isset($_POST['usr'])) {
 <h1 style=" text-align: center; filter: blur(1px);" >Später kurvamenő gym oldal</h1>
 <div class="col-xs-10 col-md-8 col-xl-4 offset-xs-1 offset-md-2 offset-xl-4 mt-4 p-4 bg-light text-dark rounded-3 shadow-lg">
 <form action="login.php" method="post">
+  <?php 
+  ?>
     <h1 class="h3 mb-3">Please sign in</h1>
     <div class="form-floating mb-3">
       <input value="<?php if(isset($_POST['usr'])) echo $_POST['usr'];?>" type="text" name="usr" class="form-control" placeholder="name@example.com">
       <label for="floatingInput">Felhasználónév</label>
-      <?php if($_SESSION['error']=="user404") echo "<div class=\"divvis\">A felhasználónév nem regisztrált.</div>";   ?>
+      <div class="alert alert-danger px-2 p-0 w-50 " role="alert">Ilyen felhasználó nincs rigisztrálva</div>
+      <?php if(isset($_SESSION) AND isset($_SESSION['error']) AND $_SESSION['error']=="user404") echo "<div class=\"divvis\">A felhasználónév nem regisztrált.</div>";   ?>
     </div>
     <div class="form-floating mb-3">
       <input type="password" name="psw" class="form-control" placeholder="Password">
       <label for="floatingPassword">Jelszó</label>
-      <?php if($_SESSION['error']=="wrongpsw") echo "<div class=\"divvis\">Helytelen jelszó.</div>";   ?>
+      <div class="alert alert-secondary" role="alert">A megadott jelszó helytelen.</div>
+      <?php if(isset($_SESSION) AND isset($_SESSION['error']) AND $_SESSION['error']=="wrongpsw") echo "<div class=\"divvis\">Helytelen jelszó.</div>";   ?>
     </div>
 
     
