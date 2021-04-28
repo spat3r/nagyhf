@@ -29,9 +29,6 @@ session_start()
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="#">Fejlődés</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Új étel</a>
-                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Új étkezés
@@ -44,13 +41,21 @@ session_start()
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item text-dimlight" href="#">Böngészés????</a></li>
+                            <li><a class="dropdown-item text-dimlight" href="#">Új fogás</a></li>
                         </ul>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="db_printer.php">DB table</a>
+                    </li>                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">random</a>
+                    </li>                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">fóus</a>
+                    </li>
                 </ul>
-                <div class="d-flex">
-                    <button class="btn btn-link text-dimlight" href="#" type="submit">Log out</button>
-                </div>
+				<form class="d-flex" action="login.php" method="post" >	
+					<input type="text" value="1" name="logout" class="invisible">				
+					<button class="btn btn-link text-dimlight" type="submit" >Log out</button>
+				</form>
             </div>
         </div>
     </nav>

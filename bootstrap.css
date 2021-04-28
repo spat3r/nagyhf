@@ -20,6 +20,7 @@
     --bs-gray: #6c757d;
     --bs-gray-dark: #343a40;
     --bs-primary: #173055;
+    --bs-primary-light: #163564;
     --bs-secondary: #6c757d;
     --bs-success: #198754;
     --bs-info: #0dcaf0;
@@ -3430,7 +3431,7 @@ textarea.form-control-lg {
 }
 
     .btn-link:hover {
-    background-color: var(--bs-dark);
+    background-color: inherit;
     }
 
     .btn-link.disabled, .btn-link:disabled {
@@ -6901,7 +6902,7 @@ textarea.form-control-lg {
 }
 
 .w-25 {
-    width: 25% !important
+    width: 75% !important
 }
 
 .w-50 {
@@ -6909,11 +6910,15 @@ textarea.form-control-lg {
 }
 
 .w-75 {
-    width: 75% !important
+    width: 80% !important
 }
 
 .w-100 {
     width: 100% !important
+}
+
+.w-95 {
+    width: 50% !important
 }
 
 .w-auto {
@@ -11257,4 +11262,9 @@ textarea.form-control-lg {
 
 .text-dimlight {
     color: var(--bs-dim-light) !important;
+}
+
+.min-width {
+    width: min-content !important; white-space: nowrap !important; height: min-content !important; 
+
 }

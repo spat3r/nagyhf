@@ -151,16 +151,23 @@ for ($day = 1; $day <= $day_count; $day++, $str++) {
 							Új étkezés
 						</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li><a class="dropdown-item" href="newmeal.php?=reggeli">Reggeli</a></li>
-							<li><a class="dropdown-item" href="newmeal.php?=ebed">Ebéd</a></li>
-							<li><a class="dropdown-item" href="newmeal.php?=vacsora">Vacsora</a></li>
-							<li><a class="dropdown-item" href="newmeal.php?=nasi">Nasi</a></li>
-							<li>
-								<hr class="dropdown-divider">
-							</li>
-							<li><a class="dropdown-item" href="#">Böngészés????</a></li>
+						<li><a class="dropdown-item text-dimlight" href="newmeal.php?=reggeli">Reggeli</a></li>
+                            <li><a class="dropdown-item text-dimlight" href="newmeal.php?=ebed">Ebéd</a></li>
+                            <li><a class="dropdown-item text-dimlight" href="newmeal.php?=vacsora">Vacsora</a></li>
+                            <li><a class="dropdown-item text-dimlight" href="newmeal.php?=nasi">Nasi</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-dimlight" href="#">Új fogás</a></li>
 						</ul>
 					</li>
+					<li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="db_printer.php">DB table</a>
+                    </li>                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">random</a>
+                    </li>                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">fóus</a>
+                    </li>
 				</ul>
 				<form class="d-flex" action="login.php" method="post" >	
 					<input type="text" value="1" name="logout" class="invisible">				

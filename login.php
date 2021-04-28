@@ -9,7 +9,7 @@ $link = open_db();
 
 if (isset($_POST) AND isset($_POST['usr'])) {
     $result = mysqli_query($link, "SELECT psw FROM profil p WHERE p.usr LIKE '".$_POST['usr']."';");
-    if(!mysqli_num_rows($result)) { echo "fasz"; $_SESSION['error']="user404";}
+    if(!mysqli_num_rows($result)) { $_SESSION['error']="user404";}
     else { 
         $psw = mysqli_fetch_array($result);
         if( $psw['psw'] != md5($_POST['psw']) ) { $_SESSION['error']="wrongpsw";}
@@ -28,7 +28,6 @@ if (isset($_POST) AND isset($_POST['usr'])) {
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="refresh" content="1000000000000000000000000">
 	<link href="bootstrap.css" rel="stylesheet" type="text/css" />
-	<link href="speti.css" rel="stylesheet" type="text/css" />
 	<title>Speti edzos oldala xd</title>
 </head>
 <body class="bg-primary text-light">
@@ -41,14 +40,12 @@ if (isset($_POST) AND isset($_POST['usr'])) {
     <div class="form-floating mb-3">
       <input value="<?php if(isset($_POST['usr'])) echo $_POST['usr'];?>" type="text" name="usr" class="form-control" placeholder="name@example.com">
       <label for="floatingInput">Felhasználónév</label>
-      <div class="alert alert-danger px-2 p-0 w-50 " role="alert">Ilyen felhasználó nincs rigisztrálva</div>
-      <?php if(isset($_SESSION) AND isset($_SESSION['error']) AND $_SESSION['error']=="user404") echo "<div class=\"divvis\">A felhasználónév nem regisztrált.</div>";   ?>
+      <div style="width: min-content !important; white-space: nowrap;" class="alert alert-danger px-2 mt-1 p-0 <?php if(!isset($_SESSION) OR !isset($_SESSION['error']) OR $_SESSION['error']!="user404") echo "invisible";?>" role="alert">A megadott felhasználónévhez nem tartozik fiók. <a href="#" class="alert-link">Itt tudsz fiókot regisztrálni.</a></div>
     </div>
     <div class="form-floating mb-3">
       <input type="password" name="psw" class="form-control" placeholder="Password">
       <label for="floatingPassword">Jelszó</label>
-      <div class="alert alert-secondary" role="alert">A megadott jelszó helytelen.</div>
-      <?php if(isset($_SESSION) AND isset($_SESSION['error']) AND $_SESSION['error']=="wrongpsw") echo "<div class=\"divvis\">Helytelen jelszó.</div>";   ?>
+      <div style="width: min-content !important; white-space: nowrap;" class="alert alert-danger px-2 mt-1 p-0 <?php if(!isset($_SESSION) OR !isset($_SESSION['error']) OR $_SESSION['error']!="wrongpsw") echo "invisible";?>" role="alert">A megadott jelszó helytelen.</div>
     </div>
 
     
