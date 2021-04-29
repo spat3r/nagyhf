@@ -155,7 +155,7 @@ for ($day = 1; $day <= $day_count; $day++, $str++) {
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item dropdown-item-dark text-dimlight" href="newmeal.php">Új fogás</a></li>
+                            <li><a class="dropdown-item dropdown-item-dark text-dimlight" href="newfood.php">Új fogás</a></li>
 						</ul>
 					</li>
 					<li class="nav-item">
