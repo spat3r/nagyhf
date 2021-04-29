@@ -124,7 +124,7 @@ for ($day = 1; $day <= $day_count; $day++, $str++) {
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="refresh" content="10">
+	<meta http-equiv="refresh" content="100000000000">
 	<link href="bootstrap.css" rel="stylesheet" type="text/css" />
 	<title>Speti edzos oldala xd</title>
 
@@ -143,22 +143,19 @@ for ($day = 1; $day <= $day_count; $day++, $str++) {
 					<li class="nav-item">
 						<a class="nav-link" aria-current="page" href="#">Fejlődés</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Új étel</a>
-					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							Új étkezés
+							Étkezések
 						</a>
-						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li><a class="dropdown-item text-dimlight" href="newmeal.php?=reggeli">Reggeli</a></li>
-                            <li><a class="dropdown-item text-dimlight" href="newmeal.php?=ebed">Ebéd</a></li>
-                            <li><a class="dropdown-item text-dimlight" href="newmeal.php?=vacsora">Vacsora</a></li>
-                            <li><a class="dropdown-item text-dimlight" href="newmeal.php?=nasi">Nasi</a></li>
+						<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+						<li><a class="dropdown-item dropdown-item-dark text-dimlight" href="newmeal.php?=reggeli">Reggeli</a></li>
+                            <li><a class="dropdown-item dropdown-item-dark text-dimlight" href="newmeal.php?=ebed">Ebéd</a></li>
+                            <li><a class="dropdown-item dropdown-item-dark text-dimlight" href="newmeal.php?=vacsora">Vacsora</a></li>
+                            <li><a class="dropdown-item dropdown-item-dark text-dimlight" href="newmeal.php?=nasi">Nasi</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item text-dimlight" href="#">Új fogás</a></li>
+                            <li><a class="dropdown-item dropdown-item-dark text-dimlight" href="newmeal.php">Új fogás</a></li>
 						</ul>
 					</li>
 					<li class="nav-item">

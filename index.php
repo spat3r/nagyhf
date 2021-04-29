@@ -37,7 +37,6 @@ header("Location: main.php")
                 <th scope="col">Cím</th>      
                 <th scope="col"></th>      
             </tr> 
-            <?php  ?>
                 <tr>
                 <th scope="row"> <?=$row['id']?> </th>
                 <th scope="row"> <?=$row['nev']?> </th>
@@ -45,7 +44,6 @@ header("Location: main.php")
                 <th scope="row"> <?=$row['cim']?> </th>                 
                 <th scope="row"> <i class="far fa-trash-alt"></i> <a href="delete.php?id=<?=$row['id']?>"> Törlés</a></th>
                 </tr> 
-            <?php endwhile; ?>        
         </table>
         <p><a href="insert.php" >Új elem beszúrása</a></p>
         </div>
