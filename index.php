@@ -1,4 +1,6 @@
-<?php session_start()?>
+<?php 
+header("Location: main.php")
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -35,7 +37,7 @@
                 <th scope="col">Cím</th>      
                 <th scope="col"></th>      
             </tr> 
-            <?php while ($row = mysqli_fetch_array($eredmeny)): ?>
+            <?php  ?>
                 <tr>
                 <th scope="row"> <?=$row['id']?> </th>
                 <th scope="row"> <?=$row['nev']?> </th>
