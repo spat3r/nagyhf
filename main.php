@@ -5,13 +5,14 @@ if(isset($_POST) AND isset($_POST['logout']) AND $_POST['logout']=='1'){
   session_write_close();
 }
 if (isset($_SESSION['ymd'])) {
-	$ymd = $_SESSION['ymd'];
+	$ymd = date('Y-m-j', strtotime($_SESSION['ymd']));
 } else {
 	// This month
 	$ymd = date('Y-m-j');
+	$_SESSION['ymd'] = date('Y-m-d');
 }
 
-if (!isset($_SESSION['usr'])) header("Location: login.php");
+if (!isset($_SESSION) OR !isset($_SESSION['usr'])) header("Location: login.php");
 include 'db.php';
 $link = open_db();
 
@@ -19,100 +20,10 @@ $profile_query = " where p.usr LIKE '" . $_SESSION['usr'];
 $date_query = "' AND h.date='" . $ymd . "';";
 $sql_join = "FROM profil p inner join profil_has_meal h on p.id = h.profil_id inner join meal m on m.id = h.meal_id";
 
-$eredmeny = mysqli_query($link, "SELECT p.age as age, p.wt as wt, p.wtg as wtg, p.ht as ht, p.g as g  FROM profil p inner join profil_has_meal h on p.id = h.profil_id WHERE p.usr LIKE '" . $_SESSION['usr'] . "' GROUP BY p.id;");
-$profil = mysqli_fetch_array($eredmeny);
-if ($profil['g']) {
-	$cal_goal = round(13.397 * $profil['wtg']  + 4.799 * $profil['ht']  - 5.677 * $profil['age']  + 88.362);
-	$cal_stag = round(13.397 * $profil['wt']  + 4.799 * $profil['ht']  - 5.677 * $profil['age']  + 88.362);
-	if (($cal_goal - $cal_stag) > 200) $cal_daily = $cal_stag + 200;
-	else if (($cal_stag - $cal_goal) > 200) $cal_daily = $cal_stag - 200;
-	else $cal_daily = $cal_goal;
-} else {
-	$cal_goal = round(9.247 * $profil['wtg']  +  3.098 * $profil['ht']  - 4.330 * $profil['age']  + 447.593);
-	$cal_stag = round(9.247 * $profil['wt']  +  3.098 * $profil['ht']  - 4.330 * $profil['age']  + 447.593);
-	if (($cal_goal - $cal_stag) > 200) $cal_daily = $cal_stag + 200;
-	else if (($cal_stag - $cal_goal) > 200) $cal_daily = $cal_stag - 200;
-	else $cal_daily = $cal_goal;
-}
-
-$eredmeny = mysqli_query($link, "SELECT floor(sum(m.prot/1000*h.gr)*4+sum(m.carb/1000*h.gr)*4+sum(m.fat/1000*h.gr)*7) as cal " . $sql_join . $profile_query . $date_query);
-$consumed_cal = mysqli_fetch_array($eredmeny)['cal'];
-$consumed_bar = floor($consumed_cal / $cal_daily * 100);
-$left_bar = 100 - $consumed_bar;
-
-$_SESSION['prot_goal'] = $prot_goal = $cal_daily * 0.075;
-$_SESSION['carb_goal'] = $carb_goal = $cal_daily * 0.125;
-$_SESSION['fat_goal'] = $fat_goal = $cal_daily * 0.05;
-
-$eredmeny = mysqli_query($link, "SELECT sum(m.prot/1000*h.gr) as prot, sum(m.carb/1000*h.gr) as carb, sum(m.fat/1000*h.gr) as fat " . $sql_join . $profile_query . $date_query);
-$macros = mysqli_fetch_array($eredmeny);
-$_SESSION['consumed_prot'] = $consumed_prot = round($macros['prot'] / $prot_goal * 100);
-$_SESSION['consumed_carb'] = $consumed_carb = round($macros['carb'] / $carb_goal * 100);
-$_SESSION['consumed_fat'] = $consumed_fat = round($macros['fat'] / $fat_goal * 100);
 
 
-
-//		CALENDAR
-// Set your timezone!!
-date_default_timezone_set('Europe/Budapest');
-
-// Check format
-$timestamp = strtotime($ymd);  // selected or shifted day of the month
-if ($timestamp === false) {
-	$ymd = date('Y-m-j');
-	$timestamp = strtotime($ymd);
-}
-
-//Generating a year-month var for the table loop
-$ym = date('Y-m',  $timestamp);
-
-// Title (Format:2021 May)
-$title = date('Y F', $timestamp);
-
-// Create prev & next month link
-$prev = date('Y-m-j', strtotime('-1 month', $timestamp));
-$next = date('Y-m-j', strtotime('+1 month', $timestamp));
-
-// Number of days in the month
-$day_count = date('t', $timestamp);
-
-// Getting de numeral representation of the day ( 1:MON ... 7:SUN)
-// on the forst day of the month
-$str = date('N', strtotime(date('Y-m',  $timestamp) . "-01"));
-
-// Array for calendar
-$weeks = [];
-$week = '';
-
-// Add empty cell(s)
-$week .= str_repeat('<td></td>', $str - 1);
-
-
-for ($day = 1; $day <= $day_count; $day++, $str++) {
-
-	$date = $ym . '-' . $day;
-
-	if ($ymd == $date) {
-		$week .= '<td style="background: #173055">';
-	} else {
-		$week .= '<td>';
-	}
-	$week .= "<a href=\"calendar.php?ymd=" . $date  . "\" class=\" p-0 m-0 link-nodecor bg-transparent text-light\" style=\"text-decoration: none\">" . $day . "</a>" . '</td>';
-
-	// Sunday OR last day of the month
-	if ($str % 7 == 0 || $day == $day_count) {
-
-		// last day of the month
-		if ($day == $day_count && $str % 7 != 0) {
-			// Add empty cell(s)
-			$week .= str_repeat('<td></td>', 7 - $str % 7);
-		}
-
-		$weeks[] = '<tr>' . $week . '</tr>';
-
-		$week = '';
-	}
-}
+include 'stat.php';
+include 'calendar.php';
 
 ?>
 
@@ -131,48 +42,9 @@ for ($day = 1; $day <= $day_count; $day++, $str++) {
 </head>
 
 <body class="bg-primary text-light">
-	<h1 style=" text-align: center;">Später kurvamenő gym oldal</h1>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="main.php">Főoldal</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					<li class="nav-item">
-						<a class="nav-link" aria-current="page" href="#">Fejlődés</a>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							Étkezések
-						</a>
-						<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
-						<li><a class="dropdown-item dropdown-item-dark text-dimlight" href="newmeal.php?=reggeli">Reggeli</a></li>
-                            <li><a class="dropdown-item dropdown-item-dark text-dimlight" href="newmeal.php?=ebed">Ebéd</a></li>
-                            <li><a class="dropdown-item dropdown-item-dark text-dimlight" href="newmeal.php?=vacsora">Vacsora</a></li>
-                            <li><a class="dropdown-item dropdown-item-dark text-dimlight" href="newmeal.php?=nasi">Nasi</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item dropdown-item-dark text-dimlight" href="newfood.php">Új fogás</a></li>
-						</ul>
-					</li>
-					<li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="db_printer.php">DB table</a>
-                    </li>                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">random</a>
-                    </li>                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">fóus</a>
-                    </li>
-				</ul>
-				<form class="d-flex" action="login.php" method="post" >	
-					<input type="text" value="1" name="logout" class="invisible">				
-					<button class="btn btn-link text-dimlight" type="submit" >Log out</button>
-				</form>
-			</div>
-		</div>
-	</nav>
+
+<?php include 'navbar.php'	?>
+
 	<div class="container mt-4">
 		<div class="row justify-content-around">
 			<div class="col-lg-7 col-xl-8 order-2 order-lg-1 mt-4" style="text-align: center; ">
@@ -300,3 +172,7 @@ for ($day = 1; $day <= $day_count; $day++, $str++) {
 </body>
 
 </html>
+
+
+
+

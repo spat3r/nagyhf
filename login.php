@@ -37,7 +37,7 @@ if (isset($_POST) AND isset($_POST['usr'])) {
   ?>
     <h1 class="h3 mb-3">Please sign in</h1>
     <div class="form-floating mb-3">
-      <input value="<?php if(isset($_POST['usr'])) echo $_POST['usr'];?>" type="text" name="usr" class="form-control" placeholder="name@example.com">
+      <input value="<?php if(isset($_POST) AND isset($_POST['usr'])) echo $_POST['usr'];?>" type="text" name="usr" class="form-control" placeholder="name@example.com">
       <label for="floatingInput">Felhasználónév</label>
       <div style="width: min-content !important; white-space: nowrap;" class="alert alert-danger px-2 mt-1 p-0 <?php if(!isset($_SESSION) OR !isset($_SESSION['error']) OR $_SESSION['error']!="user404") echo "invisible";?>" role="alert">A megadott felhasználónévhez nem tartozik fiók. <a href="#" class="alert-link">Itt tudsz fiókot regisztrálni.</a></div>
     </div>
