@@ -8,13 +8,14 @@ include 'db.php';
 $link = open_db();
 
 if (isset($_POST) AND isset($_POST['usr'])) {
-    $result = mysqli_query($link, "SELECT psw FROM profil p WHERE p.usr LIKE '".$_POST['usr']."';");
+    $result = mysqli_query($link, "SELECT id,psw FROM profil p WHERE p.usr LIKE '".$_POST['usr']."';");
     if(!mysqli_num_rows($result)) { $_SESSION['error']="user404";}
     else { 
         $psw = mysqli_fetch_array($result);
         if( $psw['psw'] != md5($_POST['psw']) ) { $_SESSION['error']="wrongpsw";}
         else {
             $_SESSION['usr'] = $_POST['usr'];
+            $_SESSION['id'] = $psw['id'];
             header("Location: main.php");
         }
     }

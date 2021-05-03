@@ -4,16 +4,16 @@ drop table meal;
 
 
 CREATE TABLE IF NOT EXISTS profil (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `usr` VARCHAR(45) NOT NULL,
-  `psw` VARCHAR(100) NOT NULL,
-  `age` INT NOT NULL,
-  `wt` DOUBLE NOT NULL,
-  `wtg` DOUBLE NOT NULL,
-  `ht` INT NOT NULL,
-  `g` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC)
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `usr` VARCHAR(45) NOT NULL,
+    `psw` VARCHAR(100) NOT NULL,
+    `age` INT NOT NULL,
+    `wt` DOUBLE NOT NULL,
+    `wtg` DOUBLE NOT NULL,
+    `ht` INT NOT NULL,
+    `g` INT NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `id_UNIQUE` (`id` ASC)
 );
 
 CREATE TABLE IF NOT EXISTS meal (
@@ -27,11 +27,13 @@ CREATE TABLE IF NOT EXISTS meal (
 );
 
 CREATE TABLE IF NOT EXISTS profil_has_meal (
+	`hid` INT NOT NULL AUTO_INCREMENT,
 	`profil_id` INT NOT NULL,
 	`meal_id` INT NOT NULL,
 	`gr` INT NOT NULL,
 	`date` DATE NOT NULL,
 	`blds_id` TINYINT(1) NOT NULL,
+    PRIMARY KEY (`hid`),
 	FOREIGN KEY (`profil_id`)	REFERENCES profil (`id`)	ON DELETE NO ACTION ON UPDATE NO ACTION,
     FOREIGN KEY (`meal_id`)		REFERENCES meal (`id`) 		ON DELETE NO ACTION ON UPDATE NO ACTION
 );
@@ -53,19 +55,19 @@ INSERT INTO meal VALUES ('10','pincepöri','122', '534', '576');
 INSERT INTO meal VALUES ('11','hambi','676', '345', '567');
 INSERT INTO meal VALUES ('12','hamvas segged','345', '159', '456');
 
-INSERT INTO profil_has_meal VALUES ('1','1','300','2021-04-22', '1');
-INSERT INTO profil_has_meal VALUES ('1','2','456','2021-04-22', '1');
-INSERT INTO profil_has_meal VALUES ('1','3','213','2021-04-15', '2');
-INSERT INTO profil_has_meal VALUES ('2','2','123','2021-04-13', '3');
-INSERT INTO profil_has_meal VALUES ('1','3','453','2021-04-27', '0');
-INSERT INTO profil_has_meal VALUES ('1','4','354','2021-04-27', '1');
-INSERT INTO profil_has_meal VALUES ('1','5','786','2021-04-27', '2');
-INSERT INTO profil_has_meal VALUES ('1','6','123','2021-04-27', '3');
-INSERT INTO profil_has_meal VALUES ('1','7','354','2021-04-27', '1');
-INSERT INTO profil_has_meal VALUES ('1','8','123','2021-04-27', '2');
-INSERT INTO profil_has_meal VALUES ('1','9','254','2021-04-27', '0');
-INSERT INTO profil_has_meal VALUES ('1','10','123','2021-04-27', '3');
-INSERT INTO profil_has_meal VALUES ('1','11','254','2021-04-27', '4');
+INSERT INTO profil_has_meal VALUES ('1  ','1','1','300','2021-04-22', '1');
+INSERT INTO profil_has_meal VALUES (' 2 ','1','2','456','2021-04-22', '1');
+INSERT INTO profil_has_meal VALUES (' 3 ','1','3','213','2021-04-15', '2');
+INSERT INTO profil_has_meal VALUES (' 4 ','2','2','123','2021-04-13', '3');
+INSERT INTO profil_has_meal VALUES (' 5 ','1','3','453','2021-04-27', '0');
+INSERT INTO profil_has_meal VALUES (' 6 ','1','4','354','2021-04-27', '1');
+INSERT INTO profil_has_meal VALUES (' 7 ','1','5','786','2021-04-27', '2');
+INSERT INTO profil_has_meal VALUES (' 8 ','1','6','123','2021-04-27', '3');
+INSERT INTO profil_has_meal VALUES (' 9 ','1','7','354','2021-04-27', '1');
+INSERT INTO profil_has_meal VALUES (' 10 ','1','8','123','2021-04-27', '2');
+INSERT INTO profil_has_meal VALUES ('11  ','1','9','254','2021-04-27', '0');
+INSERT INTO profil_has_meal VALUES (' 12 ','1','10','123','2021-04-27', '3');
+INSERT INTO profil_has_meal VALUES ('  13','1','11','254','2021-04-27', '4');
 
 SELECT * FROM meal;
 SELECT * FROM profil;
@@ -73,7 +75,7 @@ SELECT * FROM profil_has_meal;
 
 /*p.id, p.usr, p.psw, p.wt, p.wtg, p.ht, p.g, h.gr, h.date, h.blds_id, m.prot, m\.carb, m\.fat*/
 
-SELECT p.wt, p.wtg, p.ht, p.g, h.gr, h.date, h.blds_id, m.prot, m.carb, m.fat  FROM profil p inner join profil_has_meal h on p.id = h.profil_id inner join meal m on m.id = h.meal_id where p.usr = 'speti' AND h.date='2021-04-22';
+SELECT *  FROM profil p inner join profil_has_meal h on p.id = h.profil_id inner join meal m on m.id = h.meal_id;
 
 /*  KALÓRIA */
 SELECT p.age as age, p.wt as wt, p.wtg as wtg, p.ht as ht, p.g as g  FROM profil p inner join profil_has_meal h on p.id = h.profil_id where p.usr = 'speti' AND h.date='2021-04-22' group by p.id;
@@ -82,7 +84,6 @@ SELECT p.age as age, p.wt as wt, p.wtg as wtg, p.ht as ht, p.g as g  FROM profil
 SELECT h.blds_id, m.prot, m.carb, m.fat  FROM profil p inner join profil_has_meal h on p.id = h.profil_id inner join meal m on m.id = h.meal_id where p.usr = 'speti' AND h.date='2021-04-22';
 /*consumed macro*/
 SELECT sum(m.prot/1000*h.gr) as prot, sum(m.carb/1000*h.gr) as carb, sum(m.fat/1000*h.gr) as fat FROM profil p inner join profil_has_meal h on p.id = h.profil_id inner join meal m on m.id = h.meal_id where p.usr = 'speti' AND h.date='2021-04-26';
-/*consumed cal*/
-SELECT sum(m.prot*m.gr)*4 +sum(m.carb)*4+sum(m.fat)*7 as cal  FROM profil p inner join profil_has_meal h on p.id = h.profil_id inner join meal m on m.id = h.meal_id where p.usr = 'speti' AND h.date='2021-04-22';
 /*profil*/
 SELECT p.age as age, p.wt as wt, p.wtg as wtg, p.ht as ht, p.g as g  FROM profil p inner join profil_has_meal h on p.id = h.profil_id  where p.usr LIKE 'speti' group by p.id;
+UPDATE meal SET name = 'kenőmályas', prot = '400', carb = '576', fat = '133' WHERE id =3;

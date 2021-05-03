@@ -3,8 +3,17 @@ session_start();
 include 'db.php';
 $link = open_db();
 $meals = mysqli_query($link, "SELECT id,name, prot, carb, fat  FROM meal m;");
-print_r($_GET);
+if (isset($_GET) and isset($_GET['id']) and is_int($_GET['id'])) {
+    if (isset($_GET) and isset($_GET['gr'])) {
+        $fat = floor(mysqli_real_escape_string($link, $_GET['gr']));
+        if (!preg_match("/^[0-9]+$/", $fat)) $error = 1;
+    }
+
+    mysqli_query($link, "INSERT INTO prodil_has_meal (name, prot, carb, fat) VALUES ('{$name}',{$prot},{$carb},{$fat});");
+}
+
 ?>
+
 
 
 <!DOCTYPE html>
@@ -22,6 +31,15 @@ print_r($_GET);
 </head>
 
 <body class="bg-primary text-light">
+    <div class="container mt-4 <?php if ($error != 1) echo "visually-hidden"; ?> ">
+        <div class="row justify-content-center">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                Sikertelen hozzáadás, a tömeg formátuma nem megfelelő.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
     <?php include 'navbar.php'    ?>
 
     <div class="container mt-4 <?php if ($error != 1) echo "visually-hidden"; ?> ">
@@ -48,10 +66,10 @@ print_r($_GET);
             </div>
             <div class="row g-1 justify-content-around mb-3">
                 <div class=" col-8">
-                    <input class="form-control" name="date" type="date" value="<?= $_SESSION['ymd'] ?>">
+                    <input class="form-control mt-2" name="date" type="date" value="<?= $_SESSION['ymd'] ?>">
                 </div>
                 <div class="col-3  form-floating">
-                    <input value="<?php if (isset($_POST) and isset($_POST['gr'])) echo $_POST['gr']; ?>" type="text" class="form-control" name="gr" placeholder="g">
+                    <input value="<?php if (isset($_GET) and isset($_GET['gr'])) echo $_GET['gr']; ?>" type="text" class="form-control" name="gr" placeholder="g">
                     <label for="floatingInput">Tömeg</label>
                 </div>
             </div>
