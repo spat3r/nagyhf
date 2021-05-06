@@ -52,20 +52,20 @@ include 'calendar.php';
 					<div class="container bg-dark bg-gradient text-light rounded-3">
 						<div class="row my-2">
 							<div class="col-12">
-								Mai Napod
+								Mai Napod <br>
+								<span class="m-1 badge bg-primary "> <?= round($consumed_cal) ?> kcla /<?= round($cal_daily) ?> kcal</span>
+
 							</div>
 						</div>
 						<div class="row my-4" style="height: auto;">
-							<div class="col-3 mt-4">
+
+							<div class="col-3 mt-1">
 								<div class="progress" style="height: 7px;">
 									<div class="progress-bar" role="progressbar" style="width: <?= $consumed_bar ?>%;" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
 								</div>
 								Elfogyasztott
-
 							</div>
-							<div class="col-9 mt-4">
-								<span class="m-1 badge bg-primary "> <?= round($consumed_cal) ?> kcla /<?= round($cal_daily) ?> kcal</span>
-
+							<div class="col-9  ">
 								<div class="progress" style="height: 12px;">
 									<div class="progress-bar" role="progressbar" style="width: <?= $left_bar ?>%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 								</div>
@@ -140,7 +140,7 @@ include 'calendar.php';
 			<div class="col-lg-4 col-xl-3 order-1 order-lg-2 mt-4">
 				<div class="row">
 					<div class="bg-dark bg-gradient justify-content-around text-light rounded-3">
-						<h3 class="text-center"><a href="calendar.php?ymd=<?php echo $prev; ?>" class="btn btn-link bg-transparent ">&lt;</a> <?php echo $title; ?> <a href="calendar.php?ymd=<?php echo $next; ?>" class="btn btn-link bg-transparent">&gt;</a></h3>
+						<h3 class="text-center"><a href="main.php?ymd=<?php echo $prev; ?>" class="btn btn-link bg-transparent ">&lt;</a> <?php echo $title; ?> <a href="main.php?ymd=<?php echo $next; ?>" class="btn btn-link bg-transparent">&gt;</a></h3>
 						<table class="table table-dark table-bordered text-center ">
 							<tr>
 								<th scope="col">H</th>

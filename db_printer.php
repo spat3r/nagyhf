@@ -1,4 +1,6 @@
-<?php session_start() ?>
+<?php session_start();
+if (isset($_POST) and isset($_POST['table'])) $_SESSION['table'] = $_POST['table'];
+?>
 <!DOCTYPE html>
 <html>
 
@@ -6,7 +8,7 @@
     <link href="bootstrap.css" rel="stylesheet" type="text/css" />
 
 <body class="bg-primary text-light">
-<?php include 'navbar.php'	?>
+    <?php include 'navbar.php'    ?>
 
     <?php
     include 'db.php';
@@ -16,12 +18,10 @@
     if (isset($_REQUEST) and isset($_REQUEST['del']) and $_REQUEST['del'] == 'profil') {
         mysqli_query($link, "DELETE FROM profil_has_meal h WHERE profil_id =" . mysqli_real_escape_string($link, $_REQUEST['id']) . ";");
         mysqli_query($link, "DELETE FROM profil WHERE id = " . mysqli_real_escape_string($link, $_REQUEST['id']) . ";");
-        header("Location: db_printer.php");
     } else if (isset($_REQUEST) and isset($_REQUEST['del']) and $_REQUEST['del'] == 'meal') {
 
         mysqli_query($link, "DELETE FROM profil_has_meal WHERE meal_id = " . mysqli_real_escape_string($link, $_REQUEST['id']) . ";");
         mysqli_query($link, "DELETE FROM meal WHERE id = " . mysqli_real_escape_string($link, $_REQUEST['id']) . ";");
-        header("Location: db_printer.php");
     } else if (isset($_POST) and isset($_POST['psw'])) {
         $query =  "UPDATE profil SET 
     usr = '" . mysqli_real_escape_string($link, $_POST['usr']) . "',
@@ -40,91 +40,65 @@
     carb = '" . mysqli_real_escape_string($link, $_POST['carb']) . "',
     fat = '" . mysqli_real_escape_string($link, $_POST['fat']) . "'
     WHERE id =" . mysqli_real_escape_string($link, $_POST['id']) . ";";
+
         mysqli_query($link, $query);
+
         $query =  "UPDATE profil_has_meal SET 
     gr = '" . mysqli_real_escape_string($link, $_POST['gr']) . "',
     date = '" . date('Y-m-d', strtotime(mysqli_real_escape_string($link, $_POST['date']))) . "',
     blds_id = '" . mysqli_real_escape_string($link, $_POST['blds_id']) . "'
     WHERE hid =" . mysqli_real_escape_string($link, $_POST['hid']) . ";";
+
         mysqli_query($link, $query);
-        header("Location: db_printer.php");
+    } else if (isset($_POST) and isset($_POST['prot'])) {
+        $query =  "UPDATE meal SET 
+    name = '" . mysqli_real_escape_string($link, $_POST['name']) . "',
+    prot = '" . mysqli_real_escape_string($link, $_POST['prot']) . "',
+    carb = '" . mysqli_real_escape_string($link, $_POST['carb']) . "',
+    fat = '" . mysqli_real_escape_string($link, $_POST['fat']) . "'
+    WHERE id =" . mysqli_real_escape_string($link, $_POST['id']) . ";";
+
+        mysqli_query($link, $query);
     }
     ?>
 
+
     <div class="container d-flex">
         <div class="flex-fill mt-4">
+            <div class="col-5 mb-4">
+                <form action="db_printer.php" method="post">
+                    <select name="table" class="form-select col-3" aria-label="Default select example">
+                        <option value="0">Csak profilok</option>
+                        <option value="1">Csak ételek</option>
+                        <option selected value="2">Fogyasztás</option>
+                    </select>
+                    <input type="submit" class="btn btn-dark" value="Submit">
+                </form>
+            </div>
 
+            <div>
             <?php
-            $profils = mysqli_query($link, "SELECT *  FROM profil p");
-            foreach ($profils as $profil) {
-                $meals = mysqli_query($link, "SELECT *  FROM profil p  inner join profil_has_meal h on p.id = h.profil_id  inner join meal m on m.id = h.meal_id WHERE p.id = {$profil['id']};");
-                echo "<table class=\"table table-dark table-bordered\"><tr>";
-                echo "  <thead>
-    <th scope=\"col\">ID</th>
-    <th scope=\"col\">username</th>
-    <th scope=\"col\">password</th>
-    <th scope=\"col\">age</th>
-    <th scope=\"col\">weight(kg)</th>
-    <th scope=\"col\">weightgoal(kg)</th>
-    <th scope=\"col\">height</th>
-    <th scope=\"col\">male/female</th>
-    <th scope=\"col\">alter</th></thead>";
-                echo "<tbody>
-    <tr>
-    <form action=\"db_printer.php\" method=\"post\">
-    <td>{$profil['id']}</td>
-    <td><input style=\"width: 100px\" type=\"text\" value=\"{$profil['usr']}\" name=\"usr\"></input></td>
-    <td><input style=\"width: 100px\" type=\"text\" value=\"{$profil['psw']}\" name=\"psw\"></input></td>
-    <td><input style=\"width: 100px\" type=\"text\" value=\"{$profil['age']}\" name=\"age\"></input></td>
-    <td><input style=\"width: 100px\" type=\"text\" value=\"{$profil['wt']}\" name=\"wt\"></input></td>
-    <td><input style=\"width: 100px\" type=\"text\" value=\"{$profil['wtg']}\" name=\"wtg\"></input></td>
-    <td><input style=\"width: 100px\" type=\"text\" value=\"{$profil['ht']}\" name=\"ht\"></input></td>
-    <td><input style=\"width: 100px\" type=\"text\" value=\"{$profil['g']}\" name=\"g\"></input></td>
-    <td style=\"width: 100px; white-space: nowrap \">
-    <button type=\"submit\" class=\"btn btn-primary\">Submit</button>
-    <input type=\"text\" style=\"height: 0px; width: 0px;\"class=\"invisible p-0 m-0\" value=\"{$profil['id']}\" name=\"id\" ></input>
-    <a href=\"db_printer.php?id={$profil['id']}&del=profil\" class=\"btn btn-danger\">Delete</a></td>
-    </form>
-    </tr><tr><td  colspan=\"9\">";
-                echo "<table class=\"table table-dark table-bordered  mb-0\"><tr>";
-                echo "<thead>
-    <th scope=\"col\">fogás</th>
-    <th scope=\"col\">tömeg</th>
-    <th scope=\"col\">dátum</th>
-    <th scope=\"col\">étkezés</th>
-    <th scope=\"col\">protein</th>
-    <th scope=\"col\">szénhidrát</th>
-    <th scope=\"col\">zsír</th>
-    <th scope=\"col\">alter</th></thead><tbody>";
-                foreach ($meals as $meal) {
-                    echo "
-    <tr>
-    <form action=\"db_printer.php\" method=\"post\">
-    <td><textarea class=\"form-control\" name=\"name\" id=\"exampleFormControlTextarea1\" rows=\"1\">{$meal['name']}</textarea></td>
-    <td><input style=\"width: 100px\" type=\"text\" value=\"{$meal['gr']}\"name=\"gr\" id=\"\"></input></td>
-    <td><input style=\"width: 100px\" type=\"text\" value=\"{$meal['date']}\"name=\"date\" id=\"\"></input></td>
-    <td><input style=\"width: 100px\" type=\"text\" value=\"{$meal['blds_id']}\"name=\"blds_id\" id=\"\"></input></td>
-    <td><input style=\"width: 100px\" type=\"text\" value=\"{$meal['prot']}\"name=\"prot\" id=\"\"></input></td>
-    <td><input style=\"width: 100px\" type=\"text\" value=\"{$meal['carb']}\"name=\"carb\" id=\"\"></input></td>
-    <td><input style=\"width: 100px\" type=\"text\" value=\"{$meal['fat']}\"name=\"fat\" id=\"\"></input></td>
-    <td style=\"width: 100px; white-space: nowrap \">
-    <button type=\"submit\" class=\"btn btn-primary\">Submit</button>
-    <input type=\"text\" style=\"height: 0px; width: 0px;\"class=\"invisible p-0 m-0\" value=\"{$meal['id']}\" name=\"id\" ></input>
-    <input type=\"text\" style=\"height: 0px; width: 0px;\"class=\"invisible p-0 m-0\" value=\"{$meal['hid']}\" name=\"hid\" ></input>
-    <a href=\"db_printer.php?id={$meal['id']}&del=meal\" class=\"btn btn-danger\">Delete</a>
-    </td>
-    </form>
-    </tr><tr>";
-                }
-                echo "</td></tr></tbody></table>   ";
-                echo "</tr></tbody></table>   ";
-            }
+            if (isset($_SESSION) and isset($_SESSION['table']) and $_SESSION['table'] == 0) include 'profprint.php';
+            if (isset($_SESSION) and isset($_SESSION['table']) and $_SESSION['table'] == 1) include 'mealprint.php';
+            if (isset($_SESSION) and isset($_SESSION['table']) and $_SESSION['table'] == 2) include 'fullprint.php';
+
             ?>
+</div>
+
         </div>
     </div>
 
     <?php mysqli_close($link) ?>
-
+    <script>
+        $(document).ready(function() {
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/1e7de2572e.js" crossorigin="anonymous"></script>

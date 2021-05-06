@@ -3,13 +3,14 @@ session_start();
 include 'db.php';
 $link = open_db();
 $meals = mysqli_query($link, "SELECT id,name, prot, carb, fat  FROM meal m;");
-if (isset($_GET) and isset($_GET['id']) and is_int($_GET['id'])) {
+
+if (isset($_GET) and isset($_GET['id'])) {
     if (isset($_GET) and isset($_GET['gr'])) {
-        $fat = floor(mysqli_real_escape_string($link, $_GET['gr']));
-        if (!preg_match("/^[0-9]+$/", $fat)) $error = 1;
+        $gr = floor(mysqli_real_escape_string($link, $_GET['gr']));
+        if (!preg_match("/^[0-9]+$/", $gr)) $error = 1;
     }
 
-    mysqli_query($link, "INSERT INTO prodil_has_meal (name, prot, carb, fat) VALUES ('{$name}',{$prot},{$carb},{$fat});");
+    mysqli_query($link, "INSERT INTO profil_has_meal (gr, blds_id, date, profil_id, meal_id) VALUES ({$gr},{$_GET['meal']},'{$_GET['date']}',{$_SESSION['id']},{$_GET['id']});");
 }
 
 ?>
@@ -57,10 +58,10 @@ if (isset($_GET) and isset($_GET['id']) and is_int($_GET['id'])) {
             <div class="h3 mb-3 ">Új fogás hozzáadása </div>
             <div class="form-floating mb-3">
                 <select name="meal" class="form-select" aria-label="Default select example">
-                    <option <?php if (isset($_GET) and isset($_GET['meal']) and $_GET['meal'] == "reggeli") echo "selected"; ?> value="0">Reggeli</option>
-                    <option <?php if (isset($_GET) and isset($_GET['meal']) and $_GET['meal'] == "ebed") echo "selected"; ?> value="1">Ebéd</option>
-                    <option <?php if (isset($_GET) and isset($_GET['meal']) and $_GET['meal'] == "vacsora") echo "selected"; ?> value="2">Vacsora</option>
-                    <option <?php if (isset($_GET) and isset($_GET['meal']) and $_GET['meal'] == "nasi") echo "selected"; ?> value="3">Nasi</option>
+                    <option <?php if (isset($_GET) and isset($_GET['meal']) and ($_GET['meal'] == "0" or $_GET['meal'] == "reggeli")) echo "selected"; ?> value="0">Reggeli</option>
+                    <option <?php if (isset($_GET) and isset($_GET['meal']) and ($_GET['meal'] == "1" or $_GET['meal'] == "ebed")) echo "selected"; ?> value="1">Ebéd</option>
+                    <option <?php if (isset($_GET) and isset($_GET['meal']) and ($_GET['meal'] == "2" or $_GET['meal'] == "vacsora")) echo "selected"; ?> value="2">Vacsora</option>
+                    <option <?php if (isset($_GET) and isset($_GET['meal']) and ($_GET['meal'] == "3" or $_GET['meal'] == "nasi")) echo "selected"; ?> value="3">Nasi</option>
                 </select>
                 <label for="floatingInput">Étkezés</label>
             </div>
@@ -69,7 +70,7 @@ if (isset($_GET) and isset($_GET['id']) and is_int($_GET['id'])) {
                     <input class="form-control mt-2" name="date" type="date" value="<?= $_SESSION['ymd'] ?>">
                 </div>
                 <div class="col-3  form-floating">
-                    <input value="<?php if (isset($_GET) and isset($_GET['gr'])) echo $_GET['gr']; ?>" type="text" class="form-control" name="gr" placeholder="g">
+                    <input value="<?php if (isset($_GET) and isset($_GET['gr'])) echo $_GET['gr']; ?>" type="number" class="form-control" name="gr" placeholder="g">
                     <label for="floatingInput">Tömeg</label>
                 </div>
             </div>
