@@ -1,7 +1,8 @@
 <?php 
-$eredmeny = mysqli_query($link, "SELECT p.age as age, p.wt as wt, p.wtg as wtg, p.ht as ht, p.g as g  FROM profil p inner join profil_has_meal h on p.id = h.profil_id WHERE p.usr LIKE '" . $_SESSION['usr'] . "' GROUP BY p.id;");
+$eredmeny = mysqli_query($link, "SELECT p.id, p.age as age, p.wt as wt, p.wtg as wtg, p.ht as ht, p.g as g  FROM profil p WHERE p.usr LIKE '" . $_SESSION['usr'] . "' GROUP BY p.id;");
 $profil = mysqli_fetch_array($eredmeny);
-print_r($_SESSION);
+
+$_SESSION['id']=$profil['id'];
 
 if ($profil['g']) {
 	$cal_goal = round(13.397 * $profil['wtg']  + 4.799 * $profil['ht']  - 5.677 * $profil['age']  + 88.362);

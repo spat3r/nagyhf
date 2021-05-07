@@ -1,9 +1,9 @@
 ﻿<?php
 session_start();
-if(isset($_POST) AND isset($_POST['logout']) AND $_POST['logout']=='1'){
-  session_unset();
-  session_write_close();
-}
+
+if (!isset($_SESSION) OR !isset($_SESSION['usr']))  var_dump($_SESSION);//header("Location: login.php");
+
+
 if (isset($_SESSION['ymd'])) {
 	$ymd = date('Y-m-j', strtotime($_SESSION['ymd']));
 } else {
@@ -12,7 +12,6 @@ if (isset($_SESSION['ymd'])) {
 	$_SESSION['ymd'] = date('Y-m-d');
 }
 
-if (!isset($_SESSION) OR !isset($_SESSION['usr'])) header("Location: login.php");
 include 'db.php';
 $link = open_db();
 

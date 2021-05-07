@@ -30,7 +30,7 @@ echo '
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="db_printer.php">DB table</a>
                 </li>                    <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">random</a>
+                    <a class="nav-link" aria-current="page" href="signup.php">register</a>
                 </li>                    <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="#">fóus</a>
                 </li>
