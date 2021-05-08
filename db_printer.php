@@ -35,28 +35,28 @@ if (isset($_POST) and isset($_POST['table'])) $_SESSION['table'] = $_POST['table
         mysqli_query($link, $query);
     } else if (isset($_POST) and isset($_POST['date'])) {
         $query =  "UPDATE meal SET 
-    name = '" . mysqli_real_escape_string($link, $_POST['name']) . "',
-    prot = '" . mysqli_real_escape_string($link, $_POST['prot']) . "',
-    carb = '" . mysqli_real_escape_string($link, $_POST['carb']) . "',
-    fat = '" . mysqli_real_escape_string($link, $_POST['fat']) . "'
-    WHERE id =" . mysqli_real_escape_string($link, $_POST['id']) . ";";
+                    name = '" . mysqli_real_escape_string($link, $_POST['name']) . "',
+                    prot = '" . mysqli_real_escape_string($link, $_POST['prot']) . "',
+                    carb = '" . mysqli_real_escape_string($link, $_POST['carb']) . "',
+                    fat = '" . mysqli_real_escape_string($link, $_POST['fat']) . "'
+                    WHERE id =" . mysqli_real_escape_string($link, $_POST['id']) . ";";
 
         mysqli_query($link, $query);
 
         $query =  "UPDATE profil_has_meal SET 
-    gr = '" . mysqli_real_escape_string($link, $_POST['gr']) . "',
-    date = '" . date('Y-m-d', strtotime(mysqli_real_escape_string($link, $_POST['date']))) . "',
-    blds_id = '" . mysqli_real_escape_string($link, $_POST['blds_id']) . "'
-    WHERE hid =" . mysqli_real_escape_string($link, $_POST['hid']) . ";";
+                    gr = '" . mysqli_real_escape_string($link, $_POST['gr']) . "',
+                    date = '" . date('Y-m-d', strtotime(mysqli_real_escape_string($link, $_POST['date']))) . "',
+                    blds_id = '" . mysqli_real_escape_string($link, $_POST['blds_id']) . "'
+                    WHERE hid =" . mysqli_real_escape_string($link, $_POST['hid']) . ";";
 
         mysqli_query($link, $query);
     } else if (isset($_POST) and isset($_POST['prot'])) {
         $query =  "UPDATE meal SET 
-    name = '" . mysqli_real_escape_string($link, $_POST['name']) . "',
-    prot = '" . mysqli_real_escape_string($link, $_POST['prot']) . "',
-    carb = '" . mysqli_real_escape_string($link, $_POST['carb']) . "',
-    fat = '" . mysqli_real_escape_string($link, $_POST['fat']) . "'
-    WHERE id =" . mysqli_real_escape_string($link, $_POST['id']) . ";";
+                    name = '" . mysqli_real_escape_string($link, $_POST['name']) . "',
+                    prot = '" . mysqli_real_escape_string($link, $_POST['prot']) . "',
+                    carb = '" . mysqli_real_escape_string($link, $_POST['carb']) . "',
+                    fat = '" . mysqli_real_escape_string($link, $_POST['fat']) . "'
+                    WHERE id =" . mysqli_real_escape_string($link, $_POST['id']) . ";";
 
         mysqli_query($link, $query);
     }

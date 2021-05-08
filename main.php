@@ -106,25 +106,25 @@ include 'calendar.php';
 								<div class="col-5 col-sm-2 bg-dark rounded-5 position-relative  my-4">
 									<div class="position-relative"> <span class="position-absolute top-0 start-100 translate-middle  badge bg-primary ">Reggeli</span> </div>
 									<br>
-									<a href="newmeal.php?=reggeli" class=" bg-dark text-light stretched-link mb-2" style="text-decoration: none;"><i class="fas fa-plus-circle"></i>
+									<a href="newmeal.php?meal=reggeli" class=" bg-dark text-light stretched-link mb-2" style="text-decoration: none;"><i class="fas fa-plus-circle"></i>
 										<br>Add</a>
 								</div>
 								<div class="col-5 col-sm-2 bg-dark rounded-5 position-relative  my-4">
 									<div class="position-relative"> <span class="position-absolute top-0 start-100 translate-middle badge bg-primary ">Ebéd</span> </div>
 									<br>
-									<a href="newmeal.php?=ebed" class=" bg-dark text-light stretched-link mb-2" style="text-decoration: none;"><i class="fas fa-plus-circle"></i>
+									<a href="newmeal.php?meal=ebed" class=" bg-dark text-light stretched-link mb-2" style="text-decoration: none;"><i class="fas fa-plus-circle"></i>
 										<br>Add</a>
 								</div>
 								<div class="col-5 col-sm-2 bg-dark rounded-5 position-relative my-4">
 									<div class="position-relative"> <span class="position-absolute top-0 start-100 translate-middle badge bg-primary ">Vacsora</span> </div>
 									<br>
-									<a href="newmeal.php?=vacsora" class=" bg-dark text-light stretched-link " style="text-decoration: none;"><i class="fas fa-plus-circle"></i>
+									<a href="newmeal.php?meal=vacsora" class=" bg-dark text-light stretched-link " style="text-decoration: none;"><i class="fas fa-plus-circle"></i>
 										<br>Add</a>
 								</div>
 								<div class="col-5 col-sm-2 bg-dark rounded-5 position-relative  my-4">
 									<div class="position-relative"> <span class="position-absolute top-0 start-100 translate-middle badge bg-primary ">Nasi</span> </div>
 									<br>
-									<a href="newmeal.php?=nasi" class=" bg-dark text-light stretched-link mb-2" style="text-decoration: none;"><i class="fas fa-plus-circle"></i>
+									<a href="newmeal.php?meal=nasi" class=" bg-dark text-light stretched-link mb-2" style="text-decoration: none;"><i class="fas fa-plus-circle"></i>
 										<br>Add</a>
 								</div>
 
@@ -154,6 +154,11 @@ include 'calendar.php';
 								echo $week;
 							} ?>
 						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="bg-dark bg-gradient justify-content-around text-light rounded-3">
+						
 					</div>
 				</div>
 			</div>

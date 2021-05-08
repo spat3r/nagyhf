@@ -37,7 +37,7 @@ if (isset($_POST) AND $error != 1){
 </head>
 
 <body class="bg-primary text-light">
-  <?php include 'navbar.php'  ?>
+  <?php include 'navbar.php'?>
 
   <div class="container mt-4 <?php if ($error != 1) echo "visually-hidden"; ?> ">
     <div class="row justify-content-center">
@@ -59,15 +59,15 @@ if (isset($_POST) AND $error != 1){
       <label class="mb-2" for="floatingInput">Makrók (100g-ban)</label>
       <div class="row g-1 justify-content-around mb-3">
         <div class="col-3  form-floating">
-          <input placeholder="g" value="<?php if (isset($_POST) AND isset($_POST['prot'])) echo $_POST['prot'];?>"type="text" class="form-control" name="prot">
+          <input placeholder="g" value="<?php if (isset($_POST) AND isset($_POST['prot'])) echo $_POST['prot'];?>"type="number" class="form-control" name="prot">
           <label for="floatingInput">Protein</label>
         </div>
         <div class="col-3  form-floating">
-          <input placeholder="g" value="<?php if (isset($_POST) AND isset($_POST['carb'])) echo $_POST['carb'];?>" type="text" class="form-control" name="carb">
+          <input placeholder="g" value="<?php if (isset($_POST) AND isset($_POST['carb'])) echo $_POST['carb'];?>" type="number" class="form-control" name="carb">
           <label for="floatingInput">Szénhidrát</label>
         </div>
         <div class="col-3  form-floating">
-          <input placeholder="g" value="<?php if (isset($_POST) AND isset($_POST['fat'])) echo $_POST['fat'];?>" type="text" class="form-control" name="fat">
+          <input placeholder="g" value="<?php if (isset($_POST) AND isset($_POST['fat'])) echo $_POST['fat'];?>" type="number" class="form-control" name="fat">
           <label for="floatingInput">Zsír</label>
         </div>
       </div>
