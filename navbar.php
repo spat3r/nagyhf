@@ -1,6 +1,6 @@
 <?php 
 echo '
-<h1 style=" text-align: center;">Später kurvamenő gym oldal</h1>
+<h1 style=" text-align: center;">Später\'s Watch Your Food</h1>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="main.php">Főoldal</a>

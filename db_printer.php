@@ -1,12 +1,14 @@
 <?php session_start();
-if (isset($_SERVER) and isset($_SESSION['usr']) and $_SESSION['usr']!="speti") { $_SESSION['error']='notadmin'; header("Location: main.php");}
+if (isset($_SERVER) and isset($_SESSION['usr']) and $_SESSION['usr'] != "speti") {
+    $_SESSION['error'] = 'notadmin';
+    header("Location: main.php");
+}
 if (isset($_POST) and isset($_POST['table'])) $_SESSION['table'] = $_POST['table'];
 ?>
 <!DOCTYPE html>
 <html>
 
-<head>
-    <link href="bootstrap.css" rel="stylesheet" type="text/css" />
+<?php include 'head.php' ?>
 
 <body class="bg-primary text-light">
     <?php include 'navbar.php'    ?>
@@ -78,18 +80,17 @@ if (isset($_POST) and isset($_POST['table'])) $_SESSION['table'] = $_POST['table
             </div>
 
             <div>
-            <?php
-            if (isset($_SESSION) and isset($_SESSION['table']) and $_SESSION['table'] == 0) include 'profprint.php';
-            if (isset($_SESSION) and isset($_SESSION['table']) and $_SESSION['table'] == 1) include 'mealprint.php';
-            if (isset($_SESSION) and isset($_SESSION['table']) and $_SESSION['table'] == 2) include 'fullprint.php';
-
-            ?>
-</div>
+                <?php
+                if (isset($_SESSION) and isset($_SESSION['table']) and $_SESSION['table'] == 0) include 'profprint.php';
+                if (isset($_SESSION) and isset($_SESSION['table']) and $_SESSION['table'] == 1) include 'mealprint.php';
+                if (isset($_SESSION) and isset($_SESSION['table']) and $_SESSION['table'] == 2) include 'fullprint.php';
+                ?>
+            </div>
 
         </div>
     </div>
+    <?php include 'footer.php'; ?>
 
-    <?php mysqli_close($link) ?>
     <script>
         $(document).ready(function() {
             $("#myInput").on("keyup", function() {

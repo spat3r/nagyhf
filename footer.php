@@ -55,3 +55,4 @@
     <a class="text-light" href="https://www.facebook.com/whiteboysummer/">Später Inc.</a>
   </div>
 </footer>
+<?php mysqli_close($link) ?>

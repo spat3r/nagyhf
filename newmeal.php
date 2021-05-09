@@ -18,16 +18,7 @@ if (isset($_GET) and isset($_GET['gr']) and $_GET['gr']>0 ) {
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="bootstrap.css" rel="stylesheet" type="text/css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-
-    <title>Speti edzos oldala xd</title>
-</head>
+<?php include 'head.php' ?>
 
 <body class="bg-primary text-light">
 
@@ -106,6 +97,7 @@ if (isset($_GET) and isset($_GET['gr']) and $_GET['gr']>0 ) {
 
         </form>
     </div>
+<?php include 'footer.php'; ?>
 
     <script>
         $(document).ready(function() {

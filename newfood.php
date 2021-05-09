@@ -34,13 +34,7 @@ if (isset($_POST) AND $error != 1){
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="bootstrap.css" rel="stylesheet" type="text/css" />
-
-  <title>Speti edzos oldala xd</title>
-</head>
+<?php include 'head.php' ?>
 
 <body class="bg-primary text-light">
   <?php include 'navbar.php'?>
@@ -73,6 +67,7 @@ if (isset($_POST) AND $error != 1){
   </div>
 
 
+<?php include 'footer.php'; ?>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/1e7de2572e.js" crossorigin="anonymous"></script>

@@ -32,14 +32,7 @@ include 'calendar.php';
 <!DOCTYPE html>
 <html>
 
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="refresh" content="100000000000">
-	<link href="bootstrap.css" rel="stylesheet" type="text/css" />
-	<title>Speti edzos oldala xd</title>
-
-</head>
+<?php include 'head.php' ?>
 
 <body class="bg-primary text-light">
 
@@ -192,7 +185,6 @@ include 'calendar.php';
 		</div>
 
 	</div>
-
 
 <?php include 'footer.php'; ?>
 
