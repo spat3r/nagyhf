@@ -1,4 +1,5 @@
 <?php session_start();
+if (isset($_SERVER) and isset($_SESSION['usr']) and $_SESSION['usr']!="speti") { $_SESSION['error']='notadmin'; header("Location: main.php");}
 if (isset($_POST) and isset($_POST['table'])) $_SESSION['table'] = $_POST['table'];
 ?>
 <!DOCTYPE html>

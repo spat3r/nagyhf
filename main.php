@@ -7,7 +7,7 @@ if (!isset($_SESSION) or !isset($_SESSION['usr']))  header("Location: login.php"
 if (isset($_SESSION['ymd'])) {
 	$ymd = date('Y-m-j', strtotime($_SESSION['ymd']));
 } else {
-	// This month
+	// Today
 	$ymd = date('Y-m-j');
 	$_SESSION['ymd'] = date('Y-m-d');
 }
@@ -44,6 +44,7 @@ include 'calendar.php';
 <body class="bg-primary text-light">
 
 	<?php include 'navbar.php'	?>
+	<?php if(isset($_SESSION) AND isset($_SESSION['error']) AND $_SESSION['error']=="notadmin") {echo '<div style="width: min-content !important; white-space: nowrap;" class="alert alert-danger px-2 m-3 p-0" role="alert">Ön nem rendelkezik admin privilégiummal</div>'; unset($_SESSION['error']); }?>
 
 	<div class="container mt-4">
 		<div class="row justify-content-around">
@@ -161,6 +162,7 @@ include 'calendar.php';
 					<div class="bg-dark bg-gradient justify-content-around text-dark rounded-3">
 						<form action="profilupdate.php" class="my-3" method="post">
 						<span class="badge bg-transparent mb-2 fs-5">Profil adatok frissítése</span>
+						<?php if(isset($_SESSION) AND isset($_SESSION['error']) AND $_SESSION['error']=="wrong input") {echo '<div style="width: min-content !important; white-space: nowrap;" class="alert alert-danger px-2 mt-1 p-0" role="alert">Kérem helyes értékeket adjon meg</div>'; unset($_SESSION['error']); }?>
 						<div class="row g-1 justify-content-around mb-3">
 								<div class="col-5  form-floating ">
 									<input value="<?php if (isset($profil) and isset($profil['age'])) echo $profil['age']; ?>" placeholder="g" type="number" class="form-control" name="age">
@@ -192,7 +194,7 @@ include 'calendar.php';
 	</div>
 
 
-
+<?php include 'footer.php'; ?>
 
 
 
@@ -201,3 +203,7 @@ include 'calendar.php';
 </body>
 
 </html>
+
+
+
+

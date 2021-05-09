@@ -4,14 +4,12 @@ include 'db.php';
 $link = open_db();
 $meals = mysqli_query($link, "SELECT id,name, prot, carb, fat  FROM meal m;");
 
-if (isset($_GET) and isset($_GET['id'])) {
-    if (isset($_GET) and isset($_GET['gr'])) {
+if (isset($_GET) and isset($_GET['gr']) and $_GET['gr']>0 ) {
+    if (isset($_GET) and isset($_GET['id'])) {
         $gr = floor(mysqli_real_escape_string($link, $_GET['gr']));
-        if (!preg_match("/^[0-9]+$/", $gr)) $error = 1;
-    }
-
-    mysqli_query($link, "INSERT INTO profil_has_meal (gr, blds_id, date, profil_id, meal_id) VALUES ({$gr},{$_GET['meal']},'{$_GET['date']}',{$_SESSION['id']},{$_GET['id']});");
-}
+        mysqli_query($link, "INSERT INTO profil_has_meal (gr, blds_id, date, profil_id, meal_id) VALUES ({$gr},{$_GET['meal']},'{$_GET['date']}',{$_SESSION['id']},{$_GET['id']});");
+    } else {$error = 1;}
+} else if (isset($_GET) and isset($_GET['gr']) and $_GET['gr']<0 ) $_SESSION['error'] = "neg";
 
 ?>
 
@@ -32,29 +30,20 @@ if (isset($_GET) and isset($_GET['id'])) {
 </head>
 
 <body class="bg-primary text-light">
-    <div class="container mt-4 <?php if ($error != 1) echo "visually-hidden"; ?> ">
-        <div class="row justify-content-center">
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                Sikertelen hozzáadás, a tömeg formátuma nem megfelelő.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        </div>
-    </div>
 
     <?php include 'navbar.php'    ?>
 
-    <div class="container mt-4 <?php if ($error != 1) echo "visually-hidden"; ?> ">
-        <div class="row justify-content-center">
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                Sikertelen hozzáadás, a formátum nem megfelelő
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="col-xs-10 col-md-8 col-xl-6 offset-xs-1 offset-md-2 offset-xl-3 mt-4 p-4 bg-light text-dark rounded-3 shadow-lg">
+        <div class="container mt-4 <?php if ($error != 1) echo "visually-hidden"; ?> ">
+            <div class="row justify-content-center">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    Sikertelen hozzáadás, nem válaszotott ki fogást.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="col-xs-10 col-md-8 col-xl-6 offset-xs-1 offset-md-2 offset-xl-3 mt-4 p-4 bg-light text-dark rounded-3 shadow-lg">
         <form action="newmeal.php" method="get">
-
+        <?php if(isset($_SESSION) AND isset($_SESSION['error']) AND $_SESSION['error']=="neg") {echo '<div style="width: min-content !important; white-space: nowrap;" class="alert alert-danger px-2 mt-1 p-0" role="alert">Kérem helyes értékeket adjon meg</div>'; unset($_SESSION['error']); }?>
             <div class="h3 mb-3 ">Új fogás hozzáadása </div>
             <div class="form-floating mb-3">
                 <select name="meal" class="form-select" aria-label="Default select example">
@@ -70,7 +59,7 @@ if (isset($_GET) and isset($_GET['id'])) {
                     <input class="form-control mt-2" name="date" type="date" value="<?= $_SESSION['ymd'] ?>">
                 </div>
                 <div class="col-3  form-floating">
-                    <input value="<?php if (isset($_GET) and isset($_GET['gr'])) echo $_GET['gr']; ?>" type="number" class="form-control" name="gr" placeholder="g">
+                    <input required value="<?php if (isset($_GET) and isset($_GET['gr'])) echo $_GET['gr']; ?>" type="number" class="form-control" name="gr" placeholder="g">
                     <label for="floatingInput">Tömeg</label>
                 </div>
             </div>
@@ -81,9 +70,9 @@ if (isset($_GET) and isset($_GET['id'])) {
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>Name</th>
+                                <th>Név</th>
                                 <th>Protein</th>
-                                <th>Szénhudrát</th>
+                                <th>Szénhidrát</th>
                                 <th>Zsírok</th>
                             </tr>
                         </thead>

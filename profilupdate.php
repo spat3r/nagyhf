@@ -16,8 +16,7 @@ if (isset($_SESSION) and ($_SESSION['id']) and isset($_POST) and isset($_POST['a
     mysqli_query($link, $query);
     header("Location: main.php");
     }
-    else {$_SESSION['error'] = "wrong input";}
-
+    else {$_SESSION['error'] = "wrong input"; header("Location: main.php");}
 }
 
 

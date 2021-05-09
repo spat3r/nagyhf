@@ -1,8 +1,8 @@
 <?php 
 session_start();
 if(isset($_POST) AND isset($_POST['logout']) AND $_POST['logout']=='1'){
-  session_unset();
-  session_write_close();
+  session_destroy();
+  session_start();
 }
 include 'db.php';
 $link = open_db();
@@ -19,8 +19,7 @@ if (isset($_POST) AND isset($_POST['usr'])) {
         else {
             $_SESSION['usr'] = $_POST['usr'];
             $_SESSION['id'] = $psw['id'];
-            var_dump($_SESSION);
-            //header("Location: main.php");
+            header("Location: main.php");
         }
     }
 }

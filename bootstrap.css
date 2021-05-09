@@ -28,7 +28,7 @@
     --bs-danger: #dc3545;
     --bs-light: #fff;
     --bs-dark: #212529;
-    --bs-light-dark: #1d2024;
+    --bs-lightdark: #1d2024;
     --bs-dim-light: rgba(255,255,255,.55);
     --bs-font-sans-serif: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
     --bs-font-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
@@ -7732,8 +7732,8 @@ textarea.form-control-lg {
     color: inherit !important
 }
 
-.bg-light-dark {
-    background-color: var(--bs-light-dark) !important
+.bg-lightdark {
+    background-color: var(--bs-lightdark) !important
 }
 
 .bg-primary {
@@ -11267,4 +11267,11 @@ textarea.form-control-lg {
 .min-width {
     width: min-content !important; white-space: nowrap !important; height: min-content !important; 
 
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
 }

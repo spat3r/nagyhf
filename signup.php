@@ -1,9 +1,9 @@
 <?php
 session_start();
-
+session_destroy();
+session_start();
 include 'db.php';
 $link = open_db();
-if (isset($_SESSION)) unset($_SESSION);
 
 if (isset($_POST) and isset($_POST['usr'])) {
     $result = mysqli_query($link, "SELECT psw FROM profil p WHERE p.usr LIKE '" . $_POST['usr'] . "';");
@@ -22,7 +22,9 @@ if (isset($_POST) and isset($_POST['usr'])) {
             '".mysqli_real_escape_string($link, $_POST['ht'])."',
             '".mysqli_real_escape_string($link, $_POST['g'])."');";
             mysqli_query($link, $query);
+            $_SESSION['usr'] = $_POST['usr'];
             header("Location: main.php");
+            exit();
             }
             else {$_SESSION['error'] = "unset";}
 
@@ -47,19 +49,19 @@ if (isset($_POST) and isset($_POST['usr'])) {
             <h1 class="h3 mb-3">Please sign in</h1>
             <?php if(isset($_SESSION) AND isset($_SESSION['error']) AND $_SESSION['error']=="user404") echo '<div style="width: min-content !important; white-space: nowrap;" class="alert alert-danger px-2 mt-1 p-0" role="alert">A megadott felhasználónévhez már tartozik fiók. <a href="login.php?usr='.$_REQUEST['usr'].'" class="alert-link">Itt tudsz belépni a fiókodba.</a></div>';?>
             <div class="form-floating mb-3">
-                <input value="<?php if(isset($_REQUEST) AND isset($_REQUEST['usr'])) echo $_REQUEST['usr'];?>" type="text" name="usr" class="form-control" placeholder="Username">
+                <input required value="<?php if(isset($_REQUEST) AND isset($_REQUEST['usr'])) echo $_REQUEST['usr'];?>" type="text" name="usr" class="form-control" placeholder="Username">
                 <label>Felhasználónév</label>
             </div>
             <div class="form-floating mb-3">
-                <input type="password" name="psw" class="form-control" placeholder="Password">
+                <input required type="password" name="psw" class="form-control" placeholder="Password">
                 <label>Jelszó</label>
             </div>
             <?php if(isset($_SESSION) AND isset($_SESSION['error']) AND $_SESSION['error']=="wrongpsw") echo '<div style="width: min-content !important; white-space: nowrap;" class="alert alert-danger px-2 mt-1 p-0 " role="alert">A két jelszó nem egyezik.</div>';?>
             <div class="form-floating mb-3">
-                <input type="password" name="psw_rep" class="form-control" placeholder="Password">
+                <input required type="password" name="psw_rep" class="form-control" placeholder="Password">
                 <label>Jelszó ismét</label>
             </div>
-            <?php if(isset($_SESSION) AND isset($_SESSION['error']) AND $_SESSION['error']=="unset") echo '<div style="width: min-content !important; white-space: nowrap;" class="alert alert-danger px-2 mt-1 p-0" role="alert">Mindent töltsön ki kérem</div>';?>
+            <?php if(isset($_SESSION) AND isset($_SESSION['error']) AND $_SESSION['error']=="unset") echo '<div style="width: min-content !important; white-space: nowrap;" class="alert alert-danger px-2 mt-1 p-0" role="alert">Mindent töltsön ki kérem a megfelelő formátumú adattal</div>';?>
             <div class="form-check col-2 mb-3">
                 <div>
                     <input class="form-check-input" type="radio" name="g" value="1" <?php if(isset($_REQUEST) AND isset($_REQUEST['g']) and $_REQUEST['g']== 1) echo 'checked';?>>
@@ -73,11 +75,11 @@ if (isset($_POST) and isset($_POST['usr'])) {
             <div class="row g-1 justify-content-around mb-3">
                 <div class="col-5  form-floating ">
                     <input value="<?php if(isset($_REQUEST) AND isset($_REQUEST['wt'])) echo $_REQUEST['wt'];?>" placeholder="g" type="number" class="form-control" name="wt">
-                    <label for="floatingInput">Tömege</label>
+                    <label for="floatingInput">Tömege (kg)</label>
                 </div>
                 <div class="col-5  form-floating">
                     <input value="<?php if(isset($_REQUEST) AND isset($_REQUEST['wtg'])) echo $_REQUEST['wtg'];?>" placeholder="g" type="number" class="form-control" name="wtg">
-                    <label for="floatingInput">Cél tömege</label>
+                    <label for="floatingInput">Cél tömege (kg)</label>
                 </div>
             </div>
             <div class="row g-1 justify-content-around mb-3">
@@ -88,7 +90,7 @@ if (isset($_POST) and isset($_POST['usr'])) {
                 </div>
                 <div class="col-5  form-floating">
                     <input value="<?php if(isset($_REQUEST) AND isset($_REQUEST['ht'])) echo $_REQUEST['ht'];?>" placeholder="g" type="number" class="form-control" name="ht">
-                    <label for="floatingInput">Testmagasság</label>
+                    <label for="floatingInput">Testmagasság (cm)</label>
                 </div>
             </div>
             <button class="w-100 btn btn-lg btn-primary " type="submit">Regisztráció</button>

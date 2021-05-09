@@ -9,9 +9,6 @@ echo '
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Fejlődés</a>
-                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Étkezések
@@ -30,13 +27,12 @@ echo '
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="db_printer.php">DB table</a>
                 </li>                    <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="signup.php">register</a>
-                </li>                    <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">fóus</a>
-                </li>
+                    <a class="nav-link" aria-current="page" href="signup.php">Regisztráció</a>
             </ul>
-            <form class="d-flex" action="login.php" method="post" >	
-                <input type="text" value="1" name="logout" class="invisible">				
+            <form class="d-flex my-auto" action="login.php" method="post" >	
+            <div class="m-2">Üdv, '.$_SESSION['usr'].'</div>
+            '.'
+                <input type="text" value="1" name="logout" class="invisible" style="width:1px;">				
                 <button class="btn btn-link text-dimlight" type="submit" >Log out</button>
             </form>
         </div>
