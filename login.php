@@ -20,8 +20,7 @@ if (isset($_POST) AND isset($_POST['usr'])) {
             $_SESSION['usr'] = $_POST['usr'];
             $_SESSION['id'] = $psw['id'];
             var_dump($_SESSION);
-            header("Location: main.php");
-            //exit;
+            //header("Location: main.php");
         }
     }
 }
@@ -41,7 +40,7 @@ if (isset($_POST) AND isset($_POST['usr'])) {
 <form action="login.php" method="post">
   <?php 
   ?>
-    <h1 class="h3 mb-3">Please sign in</h1>
+    <h1 class="h3 mb-3">Jelentkezzen be</h1>
     <div class="form-floating mb-3">
       <input value="<?php if(isset($_REQUEST) AND isset($_REQUEST['usr'])) echo $_REQUEST['usr'];?>" type="text" name="usr" class="form-control" placeholder="Username">
       <label>Felhasználónév</label>
@@ -56,7 +55,7 @@ if (isset($_POST) AND isset($_POST['usr'])) {
     Még nincs fiókja? <a href="signup.php" class="text-primary badge" >Regisztráljon itt</a>
     </div>
     
-    <button class="w-100 btn btn-lg btn-primary " type="submit">Sign in</button>
+    <button class="w-100 btn btn-lg btn-primary " type="submit">Bejelentkezés</button>
 </form>
 </div>
 

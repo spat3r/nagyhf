@@ -1,7 +1,7 @@
 ﻿<?php
 session_start();
 
-if (!isset($_SESSION) OR !isset($_SESSION['usr']))  var_dump($_SESSION);//header("Location: login.php");
+if (!isset($_SESSION) or !isset($_SESSION['usr']))  header("Location: login.php");
 
 
 if (isset($_SESSION['ymd'])) {
@@ -11,6 +11,7 @@ if (isset($_SESSION['ymd'])) {
 	$ymd = date('Y-m-j');
 	$_SESSION['ymd'] = date('Y-m-d');
 }
+
 
 include 'db.php';
 $link = open_db();
@@ -42,7 +43,7 @@ include 'calendar.php';
 
 <body class="bg-primary text-light">
 
-<?php include 'navbar.php'	?>
+	<?php include 'navbar.php'	?>
 
 	<div class="container mt-4">
 		<div class="row justify-content-around">
@@ -137,7 +138,7 @@ include 'calendar.php';
 			</div>
 
 			<div class="col-lg-4 col-xl-3 order-1 order-lg-2 mt-4">
-				<div class="row">
+				<div class="row mb-4">
 					<div class="bg-dark bg-gradient justify-content-around text-light rounded-3">
 						<h3 class="text-center"><a href="main.php?ymd=<?php echo $prev; ?>" class="btn btn-link bg-transparent ">&lt;</a> <?php echo $title; ?> <a href="main.php?ymd=<?php echo $next; ?>" class="btn btn-link bg-transparent">&gt;</a></h3>
 						<table class="table table-dark table-bordered text-center ">
@@ -157,8 +158,32 @@ include 'calendar.php';
 					</div>
 				</div>
 				<div class="row">
-					<div class="bg-dark bg-gradient justify-content-around text-light rounded-3">
-						
+					<div class="bg-dark bg-gradient justify-content-around text-dark rounded-3">
+						<form action="profilupdate.php" class="my-3" method="post">
+						<span class="badge bg-transparent mb-2 fs-5">Profil adatok frissítése</span>
+						<div class="row g-1 justify-content-around mb-3">
+								<div class="col-5  form-floating ">
+									<input value="<?php if (isset($profil) and isset($profil['age'])) echo $profil['age']; ?>" placeholder="g" type="number" class="form-control" name="age">
+									<label for="floatingInput">Életkor</label>
+								</div>
+								<div class="col-5  form-floating">
+									<input value="<?php if (isset($profil) and isset($profil['ht'])) echo $profil['ht']; ?>" placeholder="g" type="number" class="form-control" name="ht">
+									<label for="floatingInput">Testmagasság</label>
+								</div>
+							</div>
+							<div class="row g-1 justify-content-around mb-3">
+								<div class="col-5  form-floating ">
+									<input value="<?php if (isset($profil) and isset($profil['wt'])) echo $profil['wt']; ?>" placeholder="g" type="number" class="form-control" name="wt">
+									<label for="floatingInput">Tömege</label>
+								</div>
+								<div class="col-5  form-floating">
+									<input value="<?php if (isset($profil) and isset($profil['wtg'])) echo $profil['wtg']; ?>" placeholder="g" type="number" class="form-control" name="wtg">
+									<label for="floatingInput">Cél tömege</label>
+								</div>
+							</div>
+							<button class="w-100 btn btn-lg btn-primary " type="submit">Frissítés</button>
+
+						</form>
 					</div>
 				</div>
 			</div>
@@ -176,7 +201,3 @@ include 'calendar.php';
 </body>
 
 </html>
-
-
-
-

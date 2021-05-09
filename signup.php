@@ -11,7 +11,7 @@ if (isset($_POST) and isset($_POST['usr'])) {
         $_SESSION['error'] = "user404";
     } else {
         if ($_POST['psw'] == $_POST['psw_rep']) {
-            if ( isset($_POST['age']) && isset($_POST['wt']) && isset($_POST['wtg']) && isset($_POST['ht']) &&  isset($_POST['g']) && $_POST['age']!=0 && $_POST['wt']!=0 && $_POST['wtg']!=0 && $_POST['ht']!=0 )  {
+            if ( isset($_POST['age']) && isset($_POST['wt']) && isset($_POST['wtg']) && isset($_POST['ht']) &&  isset($_POST['g']) && $_POST['age']>0 && $_POST['wt']>0 && $_POST['wtg']>0 && $_POST['ht']>0 )  {
             $psw = md5($_POST['psw']);
             $query = "INSERT INTO profil (usr,psw,age,wt,wtg,ht,g) VALUES(
             '".mysqli_real_escape_string($link, $_POST['usr'])."',
@@ -44,8 +44,6 @@ if (isset($_POST) and isset($_POST['usr'])) {
     <h1 style=" text-align: center; filter: blur(1px);">Später kurvamenő gym oldal</h1>
     <div class="col-xs-10 col-md-8 col-xl-4 offset-xs-1 offset-md-2 offset-xl-4 mt-4 p-4 bg-light text-dark rounded-3 shadow-lg">
         <form action="signup.php" method="post">
-            <?php
-            ?>
             <h1 class="h3 mb-3">Please sign in</h1>
             <?php if(isset($_SESSION) AND isset($_SESSION['error']) AND $_SESSION['error']=="user404") echo '<div style="width: min-content !important; white-space: nowrap;" class="alert alert-danger px-2 mt-1 p-0" role="alert">A megadott felhasználónévhez már tartozik fiók. <a href="login.php?usr='.$_REQUEST['usr'].'" class="alert-link">Itt tudsz belépni a fiókodba.</a></div>';?>
             <div class="form-floating mb-3">
@@ -104,3 +102,6 @@ if (isset($_POST) and isset($_POST['usr'])) {
 </body>
 
 </html>
+
+
+
