@@ -9,25 +9,25 @@ if (isset($_POST) and isset($_POST['name'])) {
   $name = mysqli_real_escape_string($link, $_POST['name']);
 }
 if (isset($_POST) and isset($_POST['prot'])) {
-  if ($_POST['prot'] > 0) {
+  if ($_POST['prot'] >= 0) {
     $prot = floor(mysqli_real_escape_string($link, $_POST['prot']) * 10);
     if (!preg_match("/^[0-9]+$/", $prot)) $error = 1;
   } else $_SESSION['error'] = "neg";
 }
 if (isset($_POST) and isset($_POST['carb'])) {
-  if ($_POST['carb'] > 0) {
+  if ($_POST['carb'] >= 0) {
     $carb = floor(mysqli_real_escape_string($link, $_POST['carb']) * 10);
     if (!preg_match("/^[0-9]+$/", $carb)) $error = 1;
   } else $_SESSION['error'] = "neg";
 }
 if (isset($_POST) and isset($_POST['fat'])) {
-  if ($_POST['fat'] > 0) {
+  if ($_POST['fat'] >= 0) {
     $fat = floor(mysqli_real_escape_string($link, $_POST['fat']) * 10);
     if (!preg_match("/^[0-9]+$/", $fat)) $error = 1;
   } else $_SESSION['error'] = "neg";
 }
 
-if (isset($_POST) AND $error != 1){
+if (isset($_POST) and isset($_POST['name']) AND $error != 1){
   mysqli_query($link, "INSERT INTO meal (name, prot, carb, fat) VALUES ('{$name}',{$prot},{$carb},{$fat});");
 }?>
 
@@ -38,7 +38,7 @@ if (isset($_POST) AND $error != 1){
 
 <body class="bg-primary text-light">
   <?php include 'navbar.php'?>
-  <div class="col-xs-10 col-md-8 col-xl-6 offset-xs-1 offset-md-2 offset-xl-4 mt-4 p-4 bg-light text-dark rounded-3 shadow-lg">
+  <div class="col-xs-10 col-md-8 col-xl-6 offset-xs-1 offset-md-2 offset-xl-3 mt-4 p-4 bg-light text-dark rounded-3 shadow-lg">
     <form action="newfood.php" method="post">
     <?php if(isset($_SESSION) AND isset($_SESSION['error']) AND $_SESSION['error']=="neg") {echo '<div style="width: min-content !important; white-space: nowrap;" class="alert alert-danger px-2 mt-1 p-0" role="alert">Kérem helyes értékeket adjon meg</div>'; unset($_SESSION['error']); }?>
       <div class="h3 mb-3 ">Új fogás hozzáadása </div>

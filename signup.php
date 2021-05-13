@@ -43,7 +43,7 @@ if (isset($_POST) and isset($_POST['usr'])) {
 <?php include 'head.php'?>
 
 <body class="bg-primary text-light">
-    <h1 style=" text-align: center; filter: blur(1px);">Später kurvamenő gym oldal</h1>
+    <h1 style=" text-align: center; filter: blur(1px);">Später's Watch Your Food</h1>
     <div class="col-xs-10 col-md-8 col-xl-4 offset-xs-1 offset-md-2 offset-xl-4 mt-4 p-4 bg-light text-dark rounded-3 shadow-lg">
         <form action="signup.php" method="post">
             <h1 class="h3 mb-3">Please sign in</h1>

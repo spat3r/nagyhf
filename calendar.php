@@ -1,7 +1,7 @@
 <?php 
 if( isset($_GET) AND isset($_GET['ymd']))
 {
-$_SESSION['ymd']=$_GET['ymd'];
+$_SESSION['ymd']=date('Y-m-d',strtotime($_GET['ymd']));
 header("Location: main.php");
 }
 // Set your timezone!!

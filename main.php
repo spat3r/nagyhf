@@ -12,12 +12,11 @@ if (isset($_SESSION['ymd'])) {
 	$_SESSION['ymd'] = date('Y-m-d');
 }
 
-
 include 'db.php';
 $link = open_db();
 
 $profile_query = " where p.usr LIKE '" . $_SESSION['usr'];
-$date_query = "' AND h.date='" . $ymd . "';";
+$date_query = "' AND h.date='" . $ymd ;
 $sql_join = "FROM profil p inner join profil_has_meal h on p.id = h.profil_id inner join meal m on m.id = h.meal_id";
 
 
@@ -47,7 +46,7 @@ include 'calendar.php';
 						<div class="row my-2">
 							<div class="col-12">
 								Mai Napod <br>
-								<span class="m-1 badge bg-primary "> <?= round($consumed_cal) ?> kcla /<?= round($cal_daily) ?> kcal</span>
+								<span class="m-1 badge bg-primary "> <?= round($consumed_cal) ?> kcal /<?= round($cal_daily) ?> kcal</span>
 
 							</div>
 						</div>
@@ -100,25 +99,29 @@ include 'calendar.php';
 							<div class="row justify-content-around ">
 								<div class="col-5 col-sm-2 bg-dark rounded-5 position-relative  my-4">
 									<div class="position-relative"> <span class="position-absolute top-0 start-100 translate-middle  badge bg-primary ">Reggeli</span> </div>
-									<br>
+                  <div class="position-relative"> <span class="position-absolute top-0 start-0 translate-middle  badge bg-primary "><?=$consumed_cal_b?> kcal</span> </div>
+                  <br>
 									<a href="newmeal.php?meal=reggeli" class=" bg-dark text-light stretched-link mb-2" style="text-decoration: none;"><i class="fas fa-plus-circle"></i>
 										<br>Add</a>
 								</div>
 								<div class="col-5 col-sm-2 bg-dark rounded-5 position-relative  my-4">
 									<div class="position-relative"> <span class="position-absolute top-0 start-100 translate-middle badge bg-primary ">Ebéd</span> </div>
-									<br>
+                  <div class="position-relative"> <span class="position-absolute top-0 start-0 translate-middle  badge bg-primary "><?=$consumed_cal_l?> kcal</span> </div>
+                  <br>
 									<a href="newmeal.php?meal=ebed" class=" bg-dark text-light stretched-link mb-2" style="text-decoration: none;"><i class="fas fa-plus-circle"></i>
 										<br>Add</a>
 								</div>
 								<div class="col-5 col-sm-2 bg-dark rounded-5 position-relative my-4">
 									<div class="position-relative"> <span class="position-absolute top-0 start-100 translate-middle badge bg-primary ">Vacsora</span> </div>
-									<br>
+                  <div class="position-relative"> <span class="position-absolute top-0 start-0 translate-middle  badge bg-primary "><?=$consumed_cal_d?> kcal</span> </div>
+                  <br>
 									<a href="newmeal.php?meal=vacsora" class=" bg-dark text-light stretched-link " style="text-decoration: none;"><i class="fas fa-plus-circle"></i>
 										<br>Add</a>
 								</div>
 								<div class="col-5 col-sm-2 bg-dark rounded-5 position-relative  my-4">
 									<div class="position-relative"> <span class="position-absolute top-0 start-100 translate-middle badge bg-primary ">Nasi</span> </div>
-									<br>
+                  <div class="position-relative"> <span class="position-absolute top-0 start-0 translate-middle  badge bg-primary "><?=$consumed_cal_s?> kcal</span> </div>
+                  <br>
 									<a href="newmeal.php?meal=nasi" class=" bg-dark text-light stretched-link mb-2" style="text-decoration: none;"><i class="fas fa-plus-circle"></i>
 										<br>Add</a>
 								</div>

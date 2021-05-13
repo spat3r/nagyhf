@@ -40,7 +40,6 @@ CREATE TABLE IF NOT EXISTS profil_has_meal (
 
 /*(usr, psw, wt, wtg, ht, g ) */
 INSERT INTO profil VALUES ('1','speti', 'a0d8461391e8a7e40d5be6c9ddf24f2f','21', '82.0', '85.0', '186', '1');
-INSERT INTO profil VALUES ('2','anyad', '1ab5e49eca4c56042145cf7eb8032452','40', '82.0', '85.0', '186', '1');
 
 INSERT INTO meal VALUES ('1','borsoleves','600', '500', '100');
 INSERT INTO meal VALUES ('2','hagyma','200', '300', '50');
@@ -49,11 +48,11 @@ INSERT INTO meal VALUES ('4','babgulyás','159', '357', '369');
 INSERT INTO meal VALUES ('5','bolognai penne','453', '147', '258');
 INSERT INTO meal VALUES ('6','banán','245', '576', '456');
 INSERT INTO meal VALUES ('7','csirke rizs','365', '147', '456');
-INSERT INTO meal VALUES ('8','kokain','200', '86', '50');
-INSERT INTO meal VALUES ('9','feri kukija','545', '258', '963');
-INSERT INTO meal VALUES ('10','pincepöri','122', '534', '576');
+INSERT INTO meal VALUES ('8','rakott tészta','200', '86', '50');
+INSERT INTO meal VALUES ('9','kóla','545', '258', '963');
+INSERT INTO meal VALUES ('10','hot dog','122', '534', '576');
 INSERT INTO meal VALUES ('11','hambi','676', '345', '567');
-INSERT INTO meal VALUES ('12','hamvas segged','345', '159', '456');
+INSERT INTO meal VALUES ('12','húsleves','345', '159', '456');
 
 INSERT INTO profil_has_meal VALUES ('1  ','1','1','300','2021-04-22', '1');
 INSERT INTO profil_has_meal VALUES (' 2 ','1','2','456','2021-04-22', '1');
@@ -86,4 +85,3 @@ SELECT h.blds_id, m.prot, m.carb, m.fat  FROM profil p inner join profil_has_mea
 SELECT sum(m.prot/1000*h.gr) as prot, sum(m.carb/1000*h.gr) as carb, sum(m.fat/1000*h.gr) as fat FROM profil p inner join profil_has_meal h on p.id = h.profil_id inner join meal m on m.id = h.meal_id where p.usr = 'speti' AND h.date='2021-04-26';
 /*profil*/
 SELECT p.age as age, p.wt as wt, p.wtg as wtg, p.ht as ht, p.g as g  FROM profil p inner join profil_has_meal h on p.id = h.profil_id  where p.usr LIKE 'speti' group by p.id;
-UPDATE meal SET name = 'kenőmályas', prot = '400', carb = '576', fat = '133' WHERE id =3;

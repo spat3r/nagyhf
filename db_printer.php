@@ -10,7 +10,7 @@ if (isset($_POST) and isset($_POST['table'])) $_SESSION['table'] = $_POST['table
 
 <?php include 'head.php' ?>
 
-<body class="bg-primary text-light">
+<body class="bg-primary text-light" style="margin-bottom: 200px;">
     <?php include 'navbar.php'    ?>
 
     <?php
@@ -19,8 +19,9 @@ if (isset($_POST) and isset($_POST['table'])) $_SESSION['table'] = $_POST['table
 
 
     if (isset($_REQUEST) and isset($_REQUEST['del']) and $_REQUEST['del'] == 'profil') {
-        mysqli_query($link, "DELETE FROM profil_has_meal h WHERE profil_id =" . mysqli_real_escape_string($link, $_REQUEST['id']) . ";");
+        mysqli_query($link, "DELETE FROM profil_has_meal WHERE profil_id =" . mysqli_real_escape_string($link, $_REQUEST['id']) . ";");
         mysqli_query($link, "DELETE FROM profil WHERE id = " . mysqli_real_escape_string($link, $_REQUEST['id']) . ";");
+
     } else if (isset($_REQUEST) and isset($_REQUEST['del']) and $_REQUEST['del'] == 'meal') {
 
         mysqli_query($link, "DELETE FROM profil_has_meal WHERE meal_id = " . mysqli_real_escape_string($link, $_REQUEST['id']) . ";");
@@ -35,6 +36,7 @@ if (isset($_POST) and isset($_POST['table'])) $_SESSION['table'] = $_POST['table
     ht = '" . mysqli_real_escape_string($link, $_POST['ht']) . "',
     g = '" . mysqli_real_escape_string($link, $_POST['g']) . "'
     WHERE id =" . mysqli_real_escape_string($link, $_POST['id']) . ";";
+
         mysqli_query($link, $query);
     } else if (isset($_POST) and isset($_POST['date'])) {
         $query =  "UPDATE meal SET 
@@ -63,6 +65,7 @@ if (isset($_POST) and isset($_POST['table'])) $_SESSION['table'] = $_POST['table
 
         mysqli_query($link, $query);
     }
+
     ?>
 
 

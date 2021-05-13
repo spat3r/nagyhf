@@ -4,12 +4,14 @@ include 'db.php';
 $link = open_db();
 $meals = mysqli_query($link, "SELECT id,name, prot, carb, fat  FROM meal m;");
 
-if (isset($_GET) and isset($_GET['gr']) and $_GET['gr']>0 ) {
+if (isset($_GET) and isset($_GET['gr']) and $_GET['gr'] > 0) {
     if (isset($_GET) and isset($_GET['id'])) {
         $gr = floor(mysqli_real_escape_string($link, $_GET['gr']));
         mysqli_query($link, "INSERT INTO profil_has_meal (gr, blds_id, date, profil_id, meal_id) VALUES ({$gr},{$_GET['meal']},'{$_GET['date']}',{$_SESSION['id']},{$_GET['id']});");
-    } else {$error = 1;}
-} else if (isset($_GET) and isset($_GET['gr']) and $_GET['gr']<0 ) $_SESSION['error'] = "neg";
+    } else {
+        $error = 1;
+    }
+} else if (isset($_GET) and isset($_GET['gr']) and $_GET['gr'] < 0) $_SESSION['error'] = "neg";
 
 ?>
 
@@ -23,7 +25,6 @@ if (isset($_GET) and isset($_GET['gr']) and $_GET['gr']>0 ) {
 <body class="bg-primary text-light">
 
     <?php include 'navbar.php'    ?>
-
     <div class="col-xs-10 col-md-8 col-xl-6 offset-xs-1 offset-md-2 offset-xl-3 mt-4 p-4 bg-light text-dark rounded-3 shadow-lg">
         <div class="container mt-4 <?php if ($error != 1) echo "visually-hidden"; ?> ">
             <div class="row justify-content-center">
@@ -33,8 +34,12 @@ if (isset($_GET) and isset($_GET['gr']) and $_GET['gr']>0 ) {
                 </div>
             </div>
         </div>
+
         <form action="newmeal.php" method="get">
-        <?php if(isset($_SESSION) AND isset($_SESSION['error']) AND $_SESSION['error']=="neg") {echo '<div style="width: min-content !important; white-space: nowrap;" class="alert alert-danger px-2 mt-1 p-0" role="alert">Kérem helyes értékeket adjon meg</div>'; unset($_SESSION['error']); }?>
+            <?php if (isset($_SESSION) and isset($_SESSION['error']) and $_SESSION['error'] == "neg") {
+                echo '<div style="width: min-content !important; white-space: nowrap;" class="alert alert-danger px-2 mt-1 p-0" role="alert">Kérem helyes értékeket adjon meg</div>';
+                unset($_SESSION['error']);
+            } ?>
             <div class="h3 mb-3 ">Új fogás hozzáadása </div>
             <div class="form-floating mb-3">
                 <select name="meal" class="form-select" aria-label="Default select example">
@@ -55,7 +60,6 @@ if (isset($_GET) and isset($_GET['gr']) and $_GET['gr']>0 ) {
                 </div>
             </div>
             <div class="mb-3">
-                <input class="form-control mb-2" id="myInput" type="text" placeholder="Search..">
                 <div class="p-2 mt-1  overflow-auto" style="max-height: 300px;">
                     <table class="table table-bordered ">
                         <thead>
@@ -89,15 +93,25 @@ if (isset($_GET) and isset($_GET['gr']) and $_GET['gr']>0 ) {
                 </div>
 
             </div>
-
-
-
-
             <button class="w-25 btn btn-lg btn-primary " type="submit">Hozzáad</button>
-
         </form>
     </div>
-<?php include 'footer.php'; ?>
+    <div class="col-xs-10 col-md-8 col-xl-6 offset-xs-1 offset-md-2 offset-xl-3 mt-4 p-4 bg-light text-dark rounded-3 shadow-lg">
+        <?php
+        if (isset($_GET) and isset($_GET['meal']) and ($_GET['meal'] == "0" or $_GET['meal'] == "reggeli"))
+        $etk = array("Reggeli", "Ebéd", "Vacsora", "Nasi");
+        for($i=0;$i<4;$i++){
+            echo "<div class=\"h4 mb-3\"> ".$etk[$i]." </div>";
+        }
+        //for each étkezés
+        //print etkezes
+           //for each row in étkezés
+              //form    opttion ( all meal) gr date  refresh  form
+        ?>
+
+
+    </div>
+    <?php include 'footer.php'; ?>
 
     <script>
         $(document).ready(function() {

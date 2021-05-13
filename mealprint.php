@@ -1,7 +1,6 @@
 <?php
 
 $meals = mysqli_query($link, "SELECT *  FROM  meal m;");
-echo "<input class=\"form-control mb-2\" id=\"myInput\" type=\"text\" placeholder=\"Search..\">";
 echo "<table class=\"table table-dark table-bordered  mb-0\"><tr>";
 echo "<thead>
     <th scope=\"col\">fogás</th>
